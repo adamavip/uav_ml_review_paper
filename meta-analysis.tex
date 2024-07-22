@@ -1,0 +1,1072 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Analysis},
+  pdfauthor={Adama NDOUR},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Analysis}
+\author{Adama NDOUR}
+\date{2024-07-17}
+
+\begin{document}
+\maketitle
+
+\hypertarget{load-package}{%
+\subsection{Load package}\label{load-package}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(readxl)}
+\FunctionTok{library}\NormalTok{(paletteer)}
+\FunctionTok{library}\NormalTok{(meta) }\CommentTok{\# meta{-}analysis}
+\FunctionTok{library}\NormalTok{(nnet) }\CommentTok{\# Multinomial logit model}
+\FunctionTok{library}\NormalTok{(GGally) }\CommentTok{\# plot model coefficients}
+\FunctionTok{library}\NormalTok{(recipes)}
+\FunctionTok{library}\NormalTok{(recipeselectors)}
+\FunctionTok{library}\NormalTok{(embed) }\CommentTok{\# encoding}
+\FunctionTok{library}\NormalTok{(report) }\CommentTok{\# report statistical results}
+\FunctionTok{library}\NormalTok{(stargazer) }\CommentTok{\# formatting statistical results}
+\FunctionTok{library}\NormalTok{(kableExtra) }\CommentTok{\# format table}
+\FunctionTok{library}\NormalTok{(DHARMa) }\CommentTok{\# plot residuals of a linear model}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{load-the-data}{%
+\subsection{Load the data}\label{load-the-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{read\_excel}\NormalTok{(}\StringTok{"uav\_review\_data.xlsx"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{overview-of-the-data}{%
+\subsection{Overview of the data}\label{overview-of-the-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#str(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{data-manipulation-create-a-model-class-variable}{%
+\subsection{Data manipulation: create a model class
+variable}\label{data-manipulation-create-a-model-class-variable}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}
+  \AttributeTok{Model\_Class =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    RPD }\SpecialCharTok{\textless{}} \FloatTok{1.4} \SpecialCharTok{\textasciitilde{}} \StringTok{"unrealiable models"}\NormalTok{,}
+\NormalTok{    RPD }\SpecialCharTok{\textgreater{}=} \FloatTok{1.4} \SpecialCharTok{\&}\NormalTok{ RPD }\SpecialCharTok{\textless{}} \DecValTok{2} \SpecialCharTok{\textasciitilde{}} \StringTok{"reasonable models"}\NormalTok{,}
+\NormalTok{    RPD }\SpecialCharTok{\textgreater{}=}\DecValTok{2} \SpecialCharTok{\textasciitilde{}} \StringTok{"excellent models"}
+\NormalTok{  )}
+\NormalTok{)}
+
+\CommentTok{\# Remove special characters}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{Sensor }\OtherTok{\textless{}{-}} \FunctionTok{str\_replace\_all}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{Sensor, }\StringTok{"}\SpecialCharTok{\textbackslash{}r}\StringTok{"}\NormalTok{, }\StringTok{" "}\NormalTok{)}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{Sensor }\OtherTok{\textless{}{-}} \FunctionTok{str\_replace\_all}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{Sensor, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\StringTok{" "}\NormalTok{)}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{Sensor }\OtherTok{\textless{}{-}} \FunctionTok{str\_replace\_all}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{Sensor, }\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{s+"}\NormalTok{, }\StringTok{" "}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exploratory-data-analysis-eda}{%
+\subsection{Exploratory Data Analysis
+(EDA)}\label{exploratory-data-analysis-eda}}
+
+\hypertarget{which-uav-platform-maximize-the-performance-of-ml-models}{%
+\subsubsection{Which UAV platform maximize the performance of ML
+models}\label{which-uav-platform-maximize-the-performance-of-ml-models}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df\_trait }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Problem}\SpecialCharTok{==}\StringTok{"trait estimation"}\NormalTok{)}
+\CommentTok{\#df\_trait \%\textgreater{}\% group\_by(Crop,Algorithm)}
+\NormalTok{n\_shape\_var }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(df\_trait}\SpecialCharTok{$}\NormalTok{Sensor))}
+\NormalTok{p}\OtherTok{\textless{}{-}}\NormalTok{df\_trait }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(DOI, Trait, UAV\_Type, Sensor, Algorithm,Model\_Class) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{RPD=}\FunctionTok{mean}\NormalTok{(RPD)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y=}\NormalTok{Algorithm, }\AttributeTok{x=}\NormalTok{RPD, }\AttributeTok{color=}\NormalTok{UAV\_Type)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{shape=}\NormalTok{Sensor))}\SpecialCharTok{+}
+  \FunctionTok{scale\_shape\_manual}\NormalTok{(}\AttributeTok{values =} \DecValTok{0}\SpecialCharTok{:}\NormalTok{n\_shape\_var) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_paletteer\_d}\NormalTok{(}\StringTok{"ggthemes::calc"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(Trait}\SpecialCharTok{\textasciitilde{}}\NormalTok{ Model\_Class, }\AttributeTok{scales =} \StringTok{"free\_y"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \FloatTok{8.5}\NormalTok{)}
+\NormalTok{  )}
+\FunctionTok{ggsave}\NormalTok{(}\StringTok{"output/figure1.png"}\NormalTok{,}\AttributeTok{plot =}\NormalTok{ p,}\AttributeTok{dpi =} \DecValTok{300}\NormalTok{)}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{meta-analysis_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\hypertarget{forest-plot-for-the-biomass}{%
+\subsubsection{Forest plot for the
+biomass}\label{forest-plot-for-the-biomass}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Install and load necessary packages}
+\CommentTok{\# Load necessary libraries}
+
+\CommentTok{\# Example RPD data}
+\NormalTok{biomass\_data }\OtherTok{\textless{}{-}}\NormalTok{ df\_trait }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Trait}\SpecialCharTok{==}\StringTok{"AGB"}\NormalTok{)}
+
+\CommentTok{\# Calculate summary statistics}
+\NormalTok{biomass\_rpd\_summary }\OtherTok{\textless{}{-}}\NormalTok{ biomass\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Algorithm) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}
+    \AttributeTok{mean\_RPD =} \FunctionTok{mean}\NormalTok{(RPD),}
+    \AttributeTok{sd\_RPD =} \FunctionTok{sd}\NormalTok{(RPD),}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{SEM\_RPD =}\NormalTok{ sd\_RPD }\SpecialCharTok{/} \FunctionTok{sqrt}\NormalTok{(n),}
+    \AttributeTok{CI\_Lower =}\NormalTok{ mean\_RPD }\SpecialCharTok{{-}} \FloatTok{1.96} \SpecialCharTok{*}\NormalTok{ SEM\_RPD,}
+    \AttributeTok{CI\_Upper =}\NormalTok{ mean\_RPD }\SpecialCharTok{+} \FloatTok{1.96} \SpecialCharTok{*}\NormalTok{ SEM\_RPD}
+\NormalTok{  )}
+
+\CommentTok{\# Print the summary}
+\FunctionTok{print}\NormalTok{(biomass\_rpd\_summary)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 9 x 7
+##   Algorithm mean_RPD sd_RPD     n SEM_RPD CI_Lower CI_Upper
+##   <chr>        <dbl>  <dbl> <int>   <dbl>    <dbl>    <dbl>
+## 1 ANN           1.97  0.782     3   0.452    1.08      2.85
+## 2 BP            1.29  0.439     2   0.310    0.684     1.90
+## 3 Cubist        1.11  1.06      2   0.748   -0.356     2.58
+## 4 MARS          2.69 NA         1  NA       NA        NA   
+## 5 MLR           2.05  0.596     3   0.344    1.38      2.73
+## 6 PLS           1.64  0.543     2   0.384    0.886     2.39
+## 7 RF            1.80  0.528     5   0.236    1.34      2.26
+## 8 SVM           1.83  0.546     5   0.244    1.35      2.30
+## 9 XGBoost       2.44 NA         1  NA       NA        NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Combine data for all models}
+\NormalTok{biomass\_meta\_combined }\OtherTok{\textless{}{-}} \FunctionTok{metagen}\NormalTok{(}
+  \AttributeTok{TE =}\NormalTok{ biomass\_rpd\_summary}\SpecialCharTok{$}\NormalTok{mean\_RPD,}
+  \AttributeTok{lower =}\NormalTok{ biomass\_rpd\_summary}\SpecialCharTok{$}\NormalTok{CI\_Lower,}
+  \AttributeTok{upper =}\NormalTok{ biomass\_rpd\_summary}\SpecialCharTok{$}\NormalTok{CI\_Upper,}
+  \AttributeTok{studlab =}\NormalTok{ biomass\_rpd\_summary}\SpecialCharTok{$}\NormalTok{Algorithm,}
+  \AttributeTok{sm =} \StringTok{"Mean"}
+\NormalTok{)}
+
+\CommentTok{\# Forest plot for all models}
+\CommentTok{\# png(file = "output/forestplot\_biomass.png", width = 10, height = 5, res = 300, units = "in")}
+\FunctionTok{forest}\NormalTok{(biomass\_meta\_combined,}
+       \AttributeTok{main =} \StringTok{"Forest Plot of RPD for All Models of Biomass Estimation"}\NormalTok{,}
+       \AttributeTok{xlab =} \StringTok{"RPD"}\NormalTok{,}
+       \AttributeTok{label.left =} \StringTok{"Models"}\NormalTok{,}
+       \AttributeTok{studlab =}\NormalTok{ biomass\_rpd\_summary}\SpecialCharTok{$}\NormalTok{Algorithm,}
+       \AttributeTok{print.tau2 =} \ConstantTok{FALSE}\NormalTok{,}
+       \AttributeTok{col.diamond =} \StringTok{"blue"}\NormalTok{,}
+       \AttributeTok{col.predict =} \StringTok{"red"}\NormalTok{,}
+       \AttributeTok{leftlabs =} \FunctionTok{c}\NormalTok{(}\StringTok{"Models"}\NormalTok{, }\StringTok{"Mean"}\NormalTok{, }\StringTok{"SE(Mean)"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{meta-analysis_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\hypertarget{forest-plot-for-the-yield}{%
+\subsubsection{Forest plot for the
+yield}\label{forest-plot-for-the-yield}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Install and load necessary packages}
+\CommentTok{\# Load necessary libraries}
+
+\CommentTok{\# Example RPD data}
+\NormalTok{yield\_data }\OtherTok{\textless{}{-}}\NormalTok{ df\_trait }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Trait}\SpecialCharTok{==}\StringTok{"Yield"}\NormalTok{)}
+
+\CommentTok{\# Calculate summary statistics}
+\NormalTok{yield\_rpd\_summary }\OtherTok{\textless{}{-}}\NormalTok{ yield\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Algorithm) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}
+    \AttributeTok{mean\_RPD =} \FunctionTok{mean}\NormalTok{(RPD),}
+    \AttributeTok{sd\_RPD =} \FunctionTok{sd}\NormalTok{(RPD),}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{SEM\_RPD =}\NormalTok{ sd\_RPD }\SpecialCharTok{/} \FunctionTok{sqrt}\NormalTok{(n),}
+    \AttributeTok{CI\_Lower =}\NormalTok{ mean\_RPD }\SpecialCharTok{{-}} \FloatTok{1.96} \SpecialCharTok{*}\NormalTok{ SEM\_RPD,}
+    \AttributeTok{CI\_Upper =}\NormalTok{ mean\_RPD }\SpecialCharTok{+} \FloatTok{1.96} \SpecialCharTok{*}\NormalTok{ SEM\_RPD}
+\NormalTok{  )}
+
+\CommentTok{\# Print the summary}
+\FunctionTok{print}\NormalTok{(yield\_rpd\_summary)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 7 x 7
+##   Algorithm mean_RPD sd_RPD     n SEM_RPD CI_Lower CI_Upper
+##   <chr>        <dbl>  <dbl> <int>   <dbl>    <dbl>    <dbl>
+## 1 ANN           2.42  1.05      3   0.608     1.23     3.61
+## 2 GP            1.81 NA         1  NA        NA       NA   
+## 3 MLP           2.03 NA         1  NA        NA       NA   
+## 4 MLR           1.48  0.449     5   0.201     1.09     1.88
+## 5 PF            1.6  NA         1  NA        NA       NA   
+## 6 RF            1.65 NA         1  NA        NA       NA   
+## 7 XGBoost       1.10 NA         1  NA        NA       NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Combine data for all models}
+\NormalTok{yield\_meta\_combined }\OtherTok{\textless{}{-}} \FunctionTok{metagen}\NormalTok{(}
+  \AttributeTok{TE =}\NormalTok{ yield\_rpd\_summary}\SpecialCharTok{$}\NormalTok{mean\_RPD,}
+  \AttributeTok{lower =}\NormalTok{ yield\_rpd\_summary}\SpecialCharTok{$}\NormalTok{CI\_Lower,}
+  \AttributeTok{upper =}\NormalTok{ yield\_rpd\_summary}\SpecialCharTok{$}\NormalTok{CI\_Upper,}
+  \AttributeTok{studlab =}\NormalTok{ yield\_rpd\_summary}\SpecialCharTok{$}\NormalTok{Algorithm,}
+  \AttributeTok{sm =} \StringTok{"Mean"}
+\NormalTok{)}
+
+\CommentTok{\# Forest plot for all models}
+\CommentTok{\# png(file = "output/forestplot\_yield.png", width = 10, height = 5, res = 300, units = "in")}
+\FunctionTok{forest}\NormalTok{(yield\_meta\_combined,}
+       \AttributeTok{main =} \StringTok{"Forest Plot of RPD for All Models for Yield Estimation"}\NormalTok{,}
+       \AttributeTok{xlab =} \StringTok{"RPD"}\NormalTok{,}
+       \AttributeTok{label.left =} \StringTok{"Models"}\NormalTok{,}
+       \AttributeTok{studlab =}\NormalTok{ yield\_rpd\_summary}\SpecialCharTok{$}\NormalTok{Algorithm,}
+       \AttributeTok{print.tau2 =} \ConstantTok{FALSE}\NormalTok{,}
+       \AttributeTok{col.diamond =} \StringTok{"blue"}\NormalTok{,}
+       \AttributeTok{col.predict =} \StringTok{"red"}\NormalTok{,}
+       \AttributeTok{leftlabs =} \FunctionTok{c}\NormalTok{(}\StringTok{"Models"}\NormalTok{, }\StringTok{"Mean"}\NormalTok{, }\StringTok{"SE(Mean)"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{meta-analysis_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\hypertarget{forest-plot-for-the-nitrogen}{%
+\subsubsection{Forest plot for the
+nitrogen}\label{forest-plot-for-the-nitrogen}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Install and load necessary packages}
+\CommentTok{\# Load necessary libraries}
+\FunctionTok{library}\NormalTok{(meta)}
+
+\CommentTok{\# Example RPD data}
+\NormalTok{nitrogen\_data }\OtherTok{\textless{}{-}}\NormalTok{ df\_trait }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Trait}\SpecialCharTok{==}\StringTok{"Nitrogen"}\NormalTok{)}
+
+\CommentTok{\# Calculate summary statistics}
+\NormalTok{nitrogen\_rpd\_summary }\OtherTok{\textless{}{-}}\NormalTok{ nitrogen\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(Algorithm) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}
+    \AttributeTok{mean\_RPD =} \FunctionTok{mean}\NormalTok{(RPD),}
+    \AttributeTok{sd\_RPD =} \FunctionTok{sd}\NormalTok{(RPD),}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{SEM\_RPD =}\NormalTok{ sd\_RPD }\SpecialCharTok{/} \FunctionTok{sqrt}\NormalTok{(n),}
+    \AttributeTok{CI\_Lower =}\NormalTok{ mean\_RPD }\SpecialCharTok{{-}} \FloatTok{1.96} \SpecialCharTok{*}\NormalTok{ SEM\_RPD,}
+    \AttributeTok{CI\_Upper =}\NormalTok{ mean\_RPD }\SpecialCharTok{+} \FloatTok{1.96} \SpecialCharTok{*}\NormalTok{ SEM\_RPD}
+\NormalTok{  )}
+
+\CommentTok{\# Print the summary}
+\FunctionTok{print}\NormalTok{(nitrogen\_rpd\_summary)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 11 x 7
+##    Algorithm mean_RPD sd_RPD     n SEM_RPD CI_Lower CI_Upper
+##    <chr>        <dbl>  <dbl> <int>   <dbl>    <dbl>    <dbl>
+##  1 ANN           2.73  0.793     3   0.458    1.83      3.62
+##  2 BP            1.61 NA         1  NA       NA        NA   
+##  3 DNN           1.42 NA         1  NA       NA        NA   
+##  4 KNN           2.16 NA         1  NA       NA        NA   
+##  5 MLR           1.68  0.608     3   0.351    0.996     2.37
+##  6 PLS           1.80 NA         1  NA       NA        NA   
+##  7 QDA           1.42 NA         1  NA       NA        NA   
+##  8 REPT          2.00 NA         1  NA       NA        NA   
+##  9 RF            1.80  0.632     6   0.258    1.29      2.30
+## 10 SVM           2.02  0.684     6   0.279    1.47      2.57
+## 11 XGBoost       1.48 NA         1  NA       NA        NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Combine data for all models}
+\NormalTok{nitrogen\_meta\_combined }\OtherTok{\textless{}{-}} \FunctionTok{metagen}\NormalTok{(}
+  \AttributeTok{TE =}\NormalTok{ nitrogen\_rpd\_summary}\SpecialCharTok{$}\NormalTok{mean\_RPD,}
+  \AttributeTok{lower =}\NormalTok{ nitrogen\_rpd\_summary}\SpecialCharTok{$}\NormalTok{CI\_Lower,}
+  \AttributeTok{upper =}\NormalTok{ nitrogen\_rpd\_summary}\SpecialCharTok{$}\NormalTok{CI\_Upper,}
+  \AttributeTok{studlab =}\NormalTok{ nitrogen\_rpd\_summary}\SpecialCharTok{$}\NormalTok{Algorithm,}
+  \AttributeTok{sm =} \StringTok{"Mean"}
+\NormalTok{)}
+
+\CommentTok{\# Forest plot for all models}
+\CommentTok{\#png(file = "output/forestplot\_nitrogen.png", width = 10, height = 5, res = 300, units = "in")}
+\FunctionTok{forest}\NormalTok{(nitrogen\_meta\_combined,}
+       \AttributeTok{main =} \StringTok{"Forest Plot of RPD for All Models of nitrogen Estimation"}\NormalTok{,}
+       \AttributeTok{xlab =} \StringTok{"RPD"}\NormalTok{,}
+       \AttributeTok{label.left =} \StringTok{"Models"}\NormalTok{,}
+       \AttributeTok{studlab =}\NormalTok{ nitrogen\_rpd\_summary}\SpecialCharTok{$}\NormalTok{Algorithm,}
+       \AttributeTok{print.tau2 =} \ConstantTok{FALSE}\NormalTok{,}
+       \AttributeTok{comb.random =} \ConstantTok{FALSE}\NormalTok{,}
+       \AttributeTok{col.diamond =} \StringTok{"blue"}\NormalTok{,}
+       \AttributeTok{col.predict =} \StringTok{"red"}\NormalTok{,}
+       \AttributeTok{leftlabs =} \FunctionTok{c}\NormalTok{(}\StringTok{"Models"}\NormalTok{, }\StringTok{"Mean"}\NormalTok{, }\StringTok{"SE(Mean)"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{meta-analysis_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\hypertarget{multivariate-linear-regression-key-drivers-of-ml-model-performance}{%
+\subsection{Multivariate Linear Regression: Key drivers of ML model
+performance}\label{multivariate-linear-regression-key-drivers-of-ml-model-performance}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Recode RPD variable to convert to factor predictors}
+\NormalTok{df\_trait\_model }\OtherTok{\textless{}{-}}\NormalTok{ df\_trait }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{RPD\_rec =} \FunctionTok{recode\_factor}\NormalTok{(Model\_Class, }
+                            \StringTok{"unrealiable models"} \OtherTok{=} \StringTok{"Bad"}\NormalTok{,}
+                            \StringTok{"reasonable models"} \OtherTok{=} \StringTok{"Reliable"}\NormalTok{,}
+                            \StringTok{"excellent models"} \OtherTok{=} \StringTok{"Excellent"}\NormalTok{),}
+    \AttributeTok{Crop =} \FunctionTok{as\_factor}\NormalTok{(Crop),}
+    \AttributeTok{Stage =} \FunctionTok{as\_factor}\NormalTok{(Stage),}
+    \AttributeTok{Trait =} \FunctionTok{as\_factor}\NormalTok{(Trait),}
+    \AttributeTok{UAV\_Type =} \FunctionTok{as\_factor}\NormalTok{(UAV\_Type),}
+    \AttributeTok{Sensor =} \FunctionTok{as\_factor}\NormalTok{(Sensor),}
+    \AttributeTok{Band =} \FunctionTok{as\_factor}\NormalTok{(Band),}
+    \AttributeTok{Algorithm =} \FunctionTok{as\_factor}\NormalTok{(Algorithm)}
+\NormalTok{  )}
+\NormalTok{df\_trait\_model }\OtherTok{\textless{}{-}}\NormalTok{ df\_trait\_model }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(RPD, Crop, Stage, Trait, UAV\_Type, Sensor, Band, Altitude\_m, Algorithm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Drop Na}
+\NormalTok{df\_trait\_model }\OtherTok{\textless{}{-}}\NormalTok{ df\_trait\_model }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{drop\_na}\NormalTok{(UAV\_Type)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{biomass}{%
+\subsubsection{Biomass}\label{biomass}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Example data}
+\NormalTok{biomass\_model\_data }\OtherTok{\textless{}{-}}\NormalTok{ df\_trait\_model }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Trait}\SpecialCharTok{==}\StringTok{"AGB"}\NormalTok{)}
+
+\CommentTok{\# Remove trait}
+\NormalTok{biomass\_model\_data }\OtherTok{\textless{}{-}}\NormalTok{ biomass\_model\_data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{Trait)}
+
+\CommentTok{\# Standardize predictor variables}
+\NormalTok{recipe }\OtherTok{\textless{}{-}} \FunctionTok{recipe}\NormalTok{(RPD }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data=}\NormalTok{biomass\_model\_data) }\SpecialCharTok{\%\textgreater{}\%}
+    \CommentTok{\# convert string to factor}
+    \CommentTok{\#step\_string2factor(all\_nominal()) \%\textgreater{}\%}
+    \CommentTok{\# remove no variance predictors }
+    \CommentTok{\#recipes::step\_nzv(all\_nominal()) \%\textgreater{}\%}
+    \CommentTok{\# factor to  dummy variables}
+    \CommentTok{\#step\_dummy(all\_nominal(), one\_hot=T) \%\textgreater{}\%}
+    \FunctionTok{step\_lencode\_mixed}\NormalTok{(}\FunctionTok{all\_nominal\_predictors}\NormalTok{() , }\AttributeTok{outcome=}\FunctionTok{vars}\NormalTok{(RPD)) }\SpecialCharTok{\%\textgreater{}\%}
+    \CommentTok{\# remove non{-}variance variables}
+    \FunctionTok{step\_nzv}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric)) }\SpecialCharTok{\%\textgreater{}\%}
+    \CommentTok{\#step\_dummy(all\_nominal\_predictors(), one\_hot=F) \%\textgreater{}\%  \# Convert categorical   variables to dummy variables}
+    \FunctionTok{prep}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## boundary (singular) fit: see help('isSingular')
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# juice recipe}
+\NormalTok{biomass\_model\_data\_final }\OtherTok{\textless{}{-}} \FunctionTok{juice}\NormalTok{(recipe)}
+
+\CommentTok{\# Fit the multinomial logistic regression model}
+\NormalTok{biomass\_model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(RPD }\SpecialCharTok{\textasciitilde{}}\NormalTok{. , }\AttributeTok{data =}\NormalTok{ biomass\_model\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{yield}{%
+\subsubsection{Yield}\label{yield}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Example data}
+\NormalTok{yield\_model\_data }\OtherTok{\textless{}{-}}\NormalTok{ df\_trait\_model }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Trait}\SpecialCharTok{==}\StringTok{"Yield"}\NormalTok{)}
+
+\CommentTok{\# Remove trait}
+\NormalTok{yield\_model\_data }\OtherTok{\textless{}{-}}\NormalTok{ yield\_model\_data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{Trait)}
+
+\CommentTok{\# Standardize predictor variables}
+\NormalTok{recipe }\OtherTok{\textless{}{-}} \FunctionTok{recipe}\NormalTok{(RPD }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data=}\NormalTok{yield\_model\_data) }\SpecialCharTok{\%\textgreater{}\%}
+    \CommentTok{\# convert string to factor}
+    \CommentTok{\#step\_string2factor(all\_nominal()) \%\textgreater{}\%}
+    \CommentTok{\# remove no variance predictors }
+    \CommentTok{\#recipes::step\_nzv(all\_nominal()) \%\textgreater{}\%}
+    \CommentTok{\# factor to  dummy variables}
+    \CommentTok{\#step\_dummy(all\_nominal(), one\_hot=T) \%\textgreater{}\%}
+    \FunctionTok{step\_lencode\_mixed}\NormalTok{(}\FunctionTok{all\_nominal\_predictors}\NormalTok{() , }\AttributeTok{outcome=}\FunctionTok{vars}\NormalTok{(RPD)) }\SpecialCharTok{\%\textgreater{}\%}
+    \CommentTok{\# remove non{-}variance variables}
+    \FunctionTok{step\_nzv}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric)) }\SpecialCharTok{\%\textgreater{}\%}
+    \CommentTok{\#step\_dummy(all\_nominal\_predictors(), one\_hot=F) \%\textgreater{}\%  \# Convert categorical   variables to dummy variables}
+    \FunctionTok{prep}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## boundary (singular) fit: see help('isSingular')
+## boundary (singular) fit: see help('isSingular')
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# juice recipe}
+\NormalTok{yield\_model\_data\_final }\OtherTok{\textless{}{-}} \FunctionTok{juice}\NormalTok{(recipe)}
+
+\CommentTok{\# Fit the multinomial logistic regression model}
+\NormalTok{yield\_model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(RPD }\SpecialCharTok{\textasciitilde{}}\NormalTok{. , }\AttributeTok{data =}\NormalTok{ yield\_model\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{nitrogen}{%
+\subsubsection{Nitrogen}\label{nitrogen}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Example data}
+\NormalTok{nitrogen\_model\_data }\OtherTok{\textless{}{-}}\NormalTok{ df\_trait\_model }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(Trait}\SpecialCharTok{==}\StringTok{"Nitrogen"}\NormalTok{)}
+
+\CommentTok{\# Remove trait}
+\NormalTok{nitrogen\_model\_data }\OtherTok{\textless{}{-}}\NormalTok{ nitrogen\_model\_data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{Trait)}
+
+\CommentTok{\# Standardize predictor variables}
+\NormalTok{recipe }\OtherTok{\textless{}{-}} \FunctionTok{recipe}\NormalTok{(RPD }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data=}\NormalTok{nitrogen\_model\_data) }\SpecialCharTok{\%\textgreater{}\%}
+    \CommentTok{\# convert string to factor}
+    \CommentTok{\#step\_string2factor(all\_nominal()) \%\textgreater{}\%}
+    \CommentTok{\# remove no variance predictors }
+    \CommentTok{\#recipes::step\_nzv(all\_nominal()) \%\textgreater{}\%}
+    \CommentTok{\# factor to  dummy variables}
+    \CommentTok{\#step\_dummy(all\_nominal(), one\_hot=T) \%\textgreater{}\%}
+    \FunctionTok{step\_lencode\_mixed}\NormalTok{(}\FunctionTok{all\_nominal\_predictors}\NormalTok{() , }\AttributeTok{outcome=}\FunctionTok{vars}\NormalTok{(RPD)) }\SpecialCharTok{\%\textgreater{}\%}
+    \CommentTok{\# remove non{-}variance variables}
+    \FunctionTok{step\_nzv}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.numeric)) }\SpecialCharTok{\%\textgreater{}\%}
+    \CommentTok{\#step\_dummy(all\_nominal\_predictors(), one\_hot=F) \%\textgreater{}\%  \# Convert categorical   variables to dummy variables}
+    \FunctionTok{prep}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## boundary (singular) fit: see help('isSingular')
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# juice recipe}
+\NormalTok{nitrogen\_model\_data\_final }\OtherTok{\textless{}{-}} \FunctionTok{juice}\NormalTok{(recipe)}
+
+\CommentTok{\# Fit the multinomial logistic regression model}
+\NormalTok{nitrogen\_model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(RPD }\SpecialCharTok{\textasciitilde{}}\NormalTok{. , }\AttributeTok{data =}\NormalTok{ nitrogen\_model\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{report-results}{%
+\subsection{Report results}\label{report-results}}
+
+\hypertarget{biomass-1}{%
+\subsubsection{Biomass}\label{biomass-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  Model
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{report\_model}\NormalTok{(biomass\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## linear model (estimated using OLS) to predict RPD with Crop, Stage, UAV_Type, Sensor, Band, Altitude_m and Algorithm (formula: RPD ~ Crop + Stage + UAV_Type + Sensor + Band + Altitude_m + Algorithm)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Performance
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{report\_performance}\NormalTok{(biomass\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The model explains a statistically significant and substantial proportion of
+## variance (R2 = 0.99, F(11, 10) = 154.51, p < .001, adj. R2 = 0.99)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Parameters
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{report\_parameters}\NormalTok{(biomass\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   - The intercept is statistically significant and positive (beta = 1.42, 95% CI [1.32, 1.51], t(10) = 31.82, p < .001; Std. beta = -0.81, 95% CI [-0.99, -0.63])
+##   - The effect of Crop [oats] is statistically significant and positive (beta = 0.58, 95% CI [0.47, 0.70], t(10) = 11.32, p < .001; Std. beta = 1.03, 95% CI [0.83, 1.24])
+##   - The effect of Crop [strawberry] is statistically significant and positive (beta = 1.25, 95% CI [1.15, 1.36], t(10) = 26.53, p < .001; Std. beta = 2.23, 95% CI [2.04, 2.41])
+##   - The effect of Stage [pre-heading] is statistically significant and negative (beta = -0.71, 95% CI [-0.81, -0.61], t(10) = -16.11, p < .001; Std. beta = -1.26, 95% CI [-1.44, -1.09])
+##   - The effect of Stage [post-heading] is statistically significant and positive (beta = 0.66, 95% CI [0.56, 0.75], t(10) = 14.87, p < .001; Std. beta = 1.17, 95% CI [0.99, 1.34])
+##   - The effect of Stage [maturity] is statistically non-significant and negative (beta = -0.09, 95% CI [-0.19, 0.02], t(10) = -1.80, p = 0.103; Std. beta = -0.15, 95% CI [-0.34, 0.04])
+##   - The effect of UAV Type [DJ M100 four-rotator] is statistically significant and negative (beta = -0.45, 95% CI [-0.58, -0.32], t(10) = -7.69, p < .001; Std. beta = -0.80, 95% CI [-1.03, -0.57])
+##   - The effect of UAV Type [DJI Matrice 600 hexcopter] is statistically non-significant and negative (beta = -0.06, 95% CI [-0.17, 0.04], t(10) = -1.30, p = 0.222; Std. beta = -0.11, 95% CI [-0.30, 0.08])
+##   - The effect of UAV Type [DJI Inspire 2] is statistically non-significant and negative (beta = -2.91e-03, 95% CI [-0.15, 0.15], t(10) = -0.04, p = 0.966; Std. beta = -5.17e-03, 95% CI [-0.27, 0.26])
+##   - The effect of Sensor [Micasense RedEdge-M] is statistically non-significant and negative (beta = -0.02, 95% CI [-0.15, 0.11], t(10) = -0.32, p = 0.754; Std. beta = -0.03, 95% CI [-0.26, 0.20])
+##   - The effect of Sensor [Micasense RedEdge-MX] is statistically significant and negative (beta = -0.23, 95% CI [-0.40, -0.06], t(10) = -2.94, p = 0.015; Std. beta = -0.40, 95% CI [-0.71, -0.10])
+##   - The effect of Band [B, G, R, RE, NIR] is statistically non-significant and positive (beta = 0.02, 95% CI [-0.15, 0.19], t(10) = 0.24, p = 0.816; Std. beta = 0.03, 95% CI [-0.27, 0.34])
+##   - The effect of Altitude m is statistically significant and positive (beta = 1.42, 95% CI [1.32, 1.51], t(10) = 31.82, p < .001; Std. beta = -0.81, 95% CI [-0.99, -0.63])
+##   - The effect of Algorithm [RF] is statistically significant and positive (beta = 0.58, 95% CI [0.47, 0.70], t(10) = 11.32, p < .001; Std. beta = 1.03, 95% CI [0.83, 1.24])
+##   - The effect of Algorithm [BP] is statistically significant and positive (beta = 1.25, 95% CI [1.15, 1.36], t(10) = 26.53, p < .001; Std. beta = 2.23, 95% CI [2.04, 2.41])
+##   - The effect of Algorithm [SVM] is statistically significant and negative (beta = -0.71, 95% CI [-0.81, -0.61], t(10) = -16.11, p < .001; Std. beta = -1.26, 95% CI [-1.44, -1.09])
+##   - The effect of Algorithm [PLS] is statistically significant and positive (beta = 0.66, 95% CI [0.56, 0.75], t(10) = 14.87, p < .001; Std. beta = 1.17, 95% CI [0.99, 1.34])
+##   - The effect of Algorithm [ANN] is statistically non-significant and negative (beta = -0.09, 95% CI [-0.19, 0.02], t(10) = -1.80, p = 0.103; Std. beta = -0.15, 95% CI [-0.34, 0.04])
+##   - The effect of Algorithm [XGBoost] is statistically significant and negative (beta = -0.45, 95% CI [-0.58, -0.32], t(10) = -7.69, p < .001; Std. beta = -0.80, 95% CI [-1.03, -0.57])
+##   - The effect of Algorithm [MARS] is statistically non-significant and negative (beta = -0.06, 95% CI [-0.17, 0.04], t(10) = -1.30, p = 0.222; Std. beta = -0.11, 95% CI [-0.30, 0.08])
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Summary
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(flextable)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'flextable'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:kableExtra':
+## 
+##     as_image, footnote
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     compose
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(officer)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'officer'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:readxl':
+## 
+##     read_xlsx
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#stargazer(biomass\_model, type = "text")}
+\CommentTok{\#sjPlot::tab\_model(biomass\_model, show.p = T, show.ci = T)}
+\CommentTok{\# Create a summary of the model}
+\NormalTok{biomass\_model\_summary }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(biomass\_model)}
+
+\CommentTok{\# Extract coefficients}
+\NormalTok{biomass\_coefficients }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(biomass\_model\_summary}\SpecialCharTok{$}\NormalTok{coefficients)}
+
+\CommentTok{\# Create a beautiful table}
+
+\CommentTok{\# Create a flextable object}
+\CommentTok{\# ft \textless{}{-} flextable(biomass\_coefficients)}
+\CommentTok{\# }
+\CommentTok{\# \# Customize the flextable}
+\CommentTok{\# ft \textless{}{-} theme\_vanilla(ft)}
+\CommentTok{\# ft \textless{}{-} autofit(ft)}
+\CommentTok{\# ft \textless{}{-} set\_caption(ft, caption = "Customized Sample Table")}
+\CommentTok{\# }
+\CommentTok{\# \# Additional styling}
+\CommentTok{\# ft \textless{}{-} bold(ft, part = "header")}
+\CommentTok{\# ft \textless{}{-} bg(ft, part = "header", bg = "lightblue")}
+\CommentTok{\# ft \textless{}{-} color(ft, part = "header", color = "white")}
+\CommentTok{\# ft \textless{}{-} border\_remove(ft)}
+\CommentTok{\# ft \textless{}{-} border\_outer(ft, border = fp\_border(color = "black", width = 1))}
+\CommentTok{\# ft \textless{}{-} border\_inner\_h(ft, border = fp\_border(color = "gray", width = 0.5))}
+\CommentTok{\# ft \textless{}{-} border\_inner\_v(ft, border = fp\_border(color = "gray", width = 0.5))}
+\CommentTok{\# }
+\CommentTok{\# \# Display the flextable}
+\CommentTok{\# ft}
+\CommentTok{\# Create beautiful table}
+\FunctionTok{kable}\NormalTok{(biomass\_coefficients, }\AttributeTok{format =} \StringTok{"simple"}\NormalTok{)  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrrr@{}}
+\toprule\noalign{}
+& Estimate & Std. Error & t value &
+Pr(\textgreater\textbar t\textbar) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(Intercept) & 1.4153405 & 0.0444809 & 31.8190615 & 0.0000000 \\
+Cropoats & 0.5817703 & 0.0514031 & 11.3178006 & 0.0000005 \\
+Cropstrawberry & 1.2532661 & 0.0472377 & 26.5310557 & 0.0000000 \\
+Stagepre-heading & -0.7109344 & 0.0441242 & -16.1121231 & 0.0000000 \\
+UAV\_TypeDJ M100 four-rotator & 0.6559266 & 0.0441242 & 14.8654636 &
+0.0000000 \\
+AlgorithmRF & -0.0858758 & 0.0478097 & -1.7962018 & 0.1026854 \\
+AlgorithmBP & -0.4508564 & 0.0586409 & -7.6884255 & 0.0000166 \\
+AlgorithmSVM & -0.0622463 & 0.0478097 & -1.3019601 & 0.2221203 \\
+AlgorithmPLS & -0.0029105 & 0.0674633 & -0.0431415 & 0.9664380 \\
+AlgorithmANN & -0.0186130 & 0.0577721 & -0.3221787 & 0.7539515 \\
+AlgorithmXGBoost & -0.2273210 & 0.0772480 & -2.9427423 & 0.0147163 \\
+AlgorithmMARS & 0.0184683 & 0.0772480 & 0.2390774 & 0.8158741 \\
+\end{longtable}
+
+\hypertarget{yield-1}{%
+\subsubsection{Yield}\label{yield-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  Model
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{report\_model}\NormalTok{(yield\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## linear model (estimated using OLS) to predict RPD with Crop, Stage, UAV_Type, Sensor, Band, Altitude_m and Algorithm (formula: RPD ~ Crop + Stage + UAV_Type + Sensor + Band + Altitude_m + Algorithm)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Performance
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{report\_performance}\NormalTok{(yield\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The model explains a statistically not significant and substantial proportion
+## of variance (R2 = 0.58, F(10, 2) = 0.28, p = 0.934, adj. R2 = -1.52)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Parameters
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{report\_parameters}\NormalTok{(yield\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   - The intercept is statistically non-significant and positive (beta = 2.03, 95% CI [-2.50, 6.56], t(2) = 1.93, p = 0.194; Std. beta = 0.41, 95% CI [-6.42, 7.24])
+##   - The effect of Crop [rice] is statistically non-significant and negative (beta = -1.01, 95% CI [-7.41, 5.40], t(2) = -0.68, p = 0.568; Std. beta = -1.52, 95% CI [-11.18, 8.14])
+##   - The effect of Crop [grapevine] is statistically non-significant and negative (beta = -0.05, 95% CI [-6.46, 6.35], t(2) = -0.04, p = 0.975; Std. beta = -0.08, 95% CI [-9.73, 9.58])
+##   - The effect of Crop [wheat] is statistically non-significant and negative (beta = -0.10, 95% CI [-6.50, 6.30], t(2) = -0.07, p = 0.953; Std. beta = -0.15, 95% CI [-9.81, 9.51])
+##   - The effect of Stage [booting] is statistically non-significant and negative (beta = -0.61, 95% CI [-7.01, 5.79], t(2) = -0.41, p = 0.722; Std. beta = -0.92, 95% CI [-10.57, 8.74])
+##   - The effect of Stage [fruit set] is statistically non-significant and negative (beta = -0.87, 95% CI [-7.27, 5.54], t(2) = -0.58, p = 0.620; Std. beta = -1.30, 95% CI [-10.96, 8.35])
+##   - The effect of Stage [veraison] is statistically non-significant and negative (beta = -0.33, 95% CI [-6.73, 6.07], t(2) = -0.22, p = 0.845; Std. beta = -0.50, 95% CI [-10.16, 9.16])
+##   - The effect of Stage [after harvest] is statistically non-significant and positive (beta = 0.05, 95% CI [-6.36, 6.45], t(2) = 0.03, p = 0.978; Std. beta = 0.07, 95% CI [-9.59, 9.73])
+##   - The effect of Stage [flowering] is statistically non-significant and positive (beta = 0.44, 95% CI [-4.78, 5.67], t(2) = 0.37, p = 0.749; Std. beta = 0.67, 95% CI [-7.21, 8.56])
+##   - The effect of Stage [grain filling] is statistically non-significant and positive (beta = 0.07, 95% CI [-6.33, 6.48], t(2) = 0.05, p = 0.964; Std. beta = 0.11, 95% CI [-9.54, 9.77])
+##   - The effect of UAV Type [DJI Matrice 210 quadcopter] is statistically non-significant and negative (beta = -0.12, 95% CI [-6.53, 6.28], t(2) = -0.08, p = 0.941; Std. beta = -0.19, 95% CI [-9.84, 9.47])
+##   - The effect of UAV Type [Microdrones Md4-1000 quadcopter] is statistically non-significant and positive (beta = 2.03, 95% CI [-2.50, 6.56], t(2) = 1.93, p = 0.194; Std. beta = 0.41, 95% CI [-6.42, 7.24])
+##   - The effect of UAV Type [eBee Ag] is statistically non-significant and negative (beta = -1.01, 95% CI [-7.41, 5.40], t(2) = -0.68, p = 0.568; Std. beta = -1.52, 95% CI [-11.18, 8.14])
+##   - The effect of Sensor [Micasense Altum] is statistically non-significant and negative (beta = -0.05, 95% CI [-6.46, 6.35], t(2) = -0.04, p = 0.975; Std. beta = -0.08, 95% CI [-9.73, 9.58])
+##   - The effect of Band [G, R, RE, NIR, TIR] is statistically non-significant and negative (beta = -0.10, 95% CI [-6.50, 6.30], t(2) = -0.07, p = 0.953; Std. beta = -0.15, 95% CI [-9.81, 9.51])
+##   - The effect of Altitude m is statistically non-significant and negative (beta = -0.61, 95% CI [-7.01, 5.79], t(2) = -0.41, p = 0.722; Std. beta = -0.92, 95% CI [-10.57, 8.74])
+##   - The effect of Algorithm [RF] is statistically non-significant and negative (beta = -0.87, 95% CI [-7.27, 5.54], t(2) = -0.58, p = 0.620; Std. beta = -1.30, 95% CI [-10.96, 8.35])
+##   - The effect of Algorithm [ANN] is statistically non-significant and negative (beta = -0.33, 95% CI [-6.73, 6.07], t(2) = -0.22, p = 0.845; Std. beta = -0.50, 95% CI [-10.16, 9.16])
+##   - The effect of Algorithm [XGBoost] is statistically non-significant and positive (beta = 0.05, 95% CI [-6.36, 6.45], t(2) = 0.03, p = 0.978; Std. beta = 0.07, 95% CI [-9.59, 9.73])
+##   - The effect of Algorithm [MLP] is statistically non-significant and positive (beta = 0.44, 95% CI [-4.78, 5.67], t(2) = 0.37, p = 0.749; Std. beta = 0.67, 95% CI [-7.21, 8.56])
+##   - The effect of Algorithm [GP] is statistically non-significant and positive (beta = 0.07, 95% CI [-6.33, 6.48], t(2) = 0.05, p = 0.964; Std. beta = 0.11, 95% CI [-9.54, 9.77])
+##   - The effect of Algorithm [PF] is statistically non-significant and negative (beta = -0.12, 95% CI [-6.53, 6.28], t(2) = -0.08, p = 0.941; Std. beta = -0.19, 95% CI [-9.84, 9.47])
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Summary
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#stargazer(yield\_model, type = "text")}
+\CommentTok{\#sjPlot::tab\_model(yield\_model, show.p = T, show.ci = T)}
+\CommentTok{\# Create a summary of the model}
+\NormalTok{yield\_model\_summary }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(yield\_model)}
+
+\CommentTok{\# Extract coefficients}
+\NormalTok{yield\_coefficients }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(yield\_model\_summary}\SpecialCharTok{$}\NormalTok{coefficients)}
+
+\CommentTok{\# Create a beautiful table}
+\FunctionTok{kable}\NormalTok{(yield\_coefficients, }\AttributeTok{format =} \StringTok{"simple"}\NormalTok{)  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrrr@{}}
+\toprule\noalign{}
+& Estimate & Std. Error & t value &
+Pr(\textgreater\textbar t\textbar) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(Intercept) & 2.0300000 & 1.052366 & 1.9289876 & 0.1935198 \\
+Croprice & -1.0072727 & 1.488270 & -0.6768080 & 0.5683135 \\
+Cropgrapevine & -0.0522222 & 1.488270 & -0.0350892 & 0.9751958 \\
+Cropwheat & -0.0989655 & 1.488270 & -0.0664970 & 0.9530314 \\
+Stagefruit set & -0.6085470 & 1.488270 & -0.4088957 & 0.7222440 \\
+Stageveraison & -0.8652778 & 1.488270 & -0.5813986 & 0.6197673 \\
+Stageflowering & -0.3310345 & 1.488270 & -0.2224291 & 0.8446289 \\
+AlgorithmRF & 0.0470588 & 1.488270 & 0.0316198 & 0.9776470 \\
+AlgorithmANN & 0.4450000 & 1.215167 & 0.3662048 & 0.7493221 \\
+AlgorithmXGBoost & 0.0748337 & 1.488270 & 0.0502824 & 0.9644675 \\
+AlgorithmGP & -0.1245829 & 1.488270 & -0.0837099 & 0.9409116 \\
+\end{longtable}
+
+\hypertarget{nitrogen-1}{%
+\subsubsection{Nitrogen}\label{nitrogen-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  Model
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{report\_model}\NormalTok{(nitrogen\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## linear model (estimated using OLS) to predict RPD with Crop, Stage, UAV_Type, Sensor, Band, Altitude_m and Algorithm (formula: RPD ~ Crop + Stage + UAV_Type + Sensor + Band + Altitude_m + Algorithm)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Performance
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{report\_performance}\NormalTok{(nitrogen\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The model explains a statistically not significant and substantial proportion
+## of variance (R2 = 0.90, F(19, 5) = 2.43, p = 0.166, adj. R2 = 0.53)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Parameters
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{report\_parameters}\NormalTok{(nitrogen\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   - The intercept is statistically non-significant and positive (beta = 1.46, 95% CI [-0.35, 3.26], t(5) = 2.07, p = 0.093; Std. beta = -0.74, 95% CI [-3.62, 2.14])
+##   - The effect of Crop [rice] is statistically non-significant and positive (beta = 0.63, 95% CI [-1.14, 2.40], t(5) = 0.91, p = 0.405; Std. beta = 1.00, 95% CI [-1.82, 3.81])
+##   - The effect of Crop [grapevine] is statistically non-significant and negative (beta = -0.83, 95% CI [-2.40, 0.73], t(5) = -1.37, p = 0.229; Std. beta = -1.33, 95% CI [-3.82, 1.16])
+##   - The effect of Crop [wheat] is statistically non-significant and negative (beta = -0.28, 95% CI [-1.84, 1.29], t(5) = -0.46, p = 0.666; Std. beta = -0.44, 95% CI [-2.94, 2.05])
+##   - The effect of Crop [tea] is statistically non-significant and negative (beta = -0.50, 95% CI [-2.42, 1.41], t(5) = -0.68, p = 0.529; Std. beta = -0.80, 95% CI [-3.85, 2.25])
+##   - The effect of Crop [corn] is statistically significant and negative (beta = -1.53, 95% CI [-3.00, -0.07], t(5) = -2.69, p = 0.043; Std. beta = -2.44, 95% CI [-4.77, -0.11])
+##   - The effect of Stage [late vegetative] is statistically non-significant and negative (beta = -0.22, 95% CI [-1.78, 1.35], t(5) = -0.36, p = 0.735; Std. beta = -0.35, 95% CI [-2.84, 2.14])
+##   - The effect of Stage [booting] is statistically non-significant and negative (beta = -0.32, 95% CI [-1.23, 0.58], t(5) = -0.92, p = 0.400; Std. beta = -0.51, 95% CI [-1.95, 0.92])
+##   - The effect of Stage [flowering] is statistically non-significant and negative (beta = -0.87, 95% CI [-1.78, 0.03], t(5) = -2.48, p = 0.056; Std. beta = -1.39, 95% CI [-2.83, 0.05])
+##   - The effect of Stage [vegetative] is statistically significant and positive (beta = 1.57, 95% CI [0.46, 2.68], t(5) = 3.64, p = 0.015; Std. beta = 2.50, 95% CI [0.73, 4.26])
+##   - The effect of Stage [reproductive] is statistically non-significant and positive (beta = 0.86, 95% CI [-0.57, 2.29], t(5) = 1.54, p = 0.184; Std. beta = 1.36, 95% CI [-0.91, 3.64])
+##   - The effect of Stage [ripening] is statistically non-significant and positive (beta = 0.66, 95% CI [-1.15, 2.46], t(5) = 0.93, p = 0.394; Std. beta = 1.04, 95% CI [-1.83, 3.92])
+##   - The effect of Stage [new shoot growth] is statistically non-significant and positive (beta = 0.79, 95% CI [-0.12, 1.69], t(5) = 2.23, p = 0.076; Std. beta = 1.25, 95% CI [-0.19, 2.69])
+##   - The effect of Stage [leaf development] is statistically non-significant and positive (beta = 0.85, 95% CI [-0.96, 2.66], t(5) = 1.21, p = 0.281; Std. beta = 1.35, 95% CI [-1.52, 4.23])
+##   - The effect of Stage [stem elongation] is statistically significant and positive (beta = 1.04, 95% CI [0.14, 1.95], t(5) = 2.96, p = 0.031; Std. beta = 1.66, 95% CI [0.22, 3.10])
+##   - The effect of UAV Type [DJ M100 four-rotator] is statistically non-significant and positive (beta = 0.86, 95% CI [-1.26, 2.98], t(5) = 1.04, p = 0.346; Std. beta = 1.36, 95% CI [-2.01, 4.74])
+##   - The effect of UAV Type [DJI Matrice 210 quadcopter] is statistically non-significant and positive (beta = 0.80, 95% CI [-1.32, 2.91], t(5) = 0.96, p = 0.379; Std. beta = 1.27, 95% CI [-2.11, 4.64])
+##   - The effect of UAV Type [eBee Ag] is statistically non-significant and positive (beta = 0.80, 95% CI [-1.32, 2.91], t(5) = 0.96, p = 0.379; Std. beta = 1.27, 95% CI [-2.11, 4.64])
+##   - The effect of UAV Type [AscTec Pelican] is statistically non-significant and positive (beta = 0.54, 95% CI [-1.58, 2.66], t(5) = 0.66, p = 0.540; Std. beta = 0.86, 95% CI [-2.51, 4.24])
+##   - The effect of Sensor [Yusense MS600] is statistically non-significant and positive (beta = 0.70, 95% CI [-1.42, 2.82], t(5) = 0.85, p = 0.435; Std. beta = 1.11, 95% CI [-2.26, 4.49])
+##   - The effect of Sensor [Micasense RedEdge-3] is statistically non-significant and positive (beta = 1.46, 95% CI [-0.35, 3.26], t(5) = 2.07, p = 0.093; Std. beta = -0.74, 95% CI [-3.62, 2.14])
+##   - The effect of Band [B, G, R, RE, NIR] is statistically non-significant and positive (beta = 0.63, 95% CI [-1.14, 2.40], t(5) = 0.91, p = 0.405; Std. beta = 1.00, 95% CI [-1.82, 3.81])
+##   - The effect of Altitude m is statistically non-significant and negative (beta = -0.83, 95% CI [-2.40, 0.73], t(5) = -1.37, p = 0.229; Std. beta = -1.33, 95% CI [-3.82, 1.16])
+##   - The effect of Algorithm [RF] is statistically non-significant and negative (beta = -0.28, 95% CI [-1.84, 1.29], t(5) = -0.46, p = 0.666; Std. beta = -0.44, 95% CI [-2.94, 2.05])
+##   - The effect of Algorithm [BP] is statistically non-significant and negative (beta = -0.50, 95% CI [-2.42, 1.41], t(5) = -0.68, p = 0.529; Std. beta = -0.80, 95% CI [-3.85, 2.25])
+##   - The effect of Algorithm [SVM] is statistically significant and negative (beta = -1.53, 95% CI [-3.00, -0.07], t(5) = -2.69, p = 0.043; Std. beta = -2.44, 95% CI [-4.77, -0.11])
+##   - The effect of Algorithm [PLS] is statistically non-significant and negative (beta = -0.22, 95% CI [-1.78, 1.35], t(5) = -0.36, p = 0.735; Std. beta = -0.35, 95% CI [-2.84, 2.14])
+##   - The effect of Algorithm [ANN] is statistically non-significant and negative (beta = -0.32, 95% CI [-1.23, 0.58], t(5) = -0.92, p = 0.400; Std. beta = -0.51, 95% CI [-1.95, 0.92])
+##   - The effect of Algorithm [XGBoost] is statistically non-significant and negative (beta = -0.87, 95% CI [-1.78, 0.03], t(5) = -2.48, p = 0.056; Std. beta = -1.39, 95% CI [-2.83, 0.05])
+##   - The effect of Algorithm [QDA] is statistically significant and positive (beta = 1.57, 95% CI [0.46, 2.68], t(5) = 3.64, p = 0.015; Std. beta = 2.50, 95% CI [0.73, 4.26])
+##   - The effect of Algorithm [DNN] is statistically non-significant and positive (beta = 0.86, 95% CI [-0.57, 2.29], t(5) = 1.54, p = 0.184; Std. beta = 1.36, 95% CI [-0.91, 3.64])
+##   - The effect of Algorithm [REPT] is statistically non-significant and positive (beta = 0.66, 95% CI [-1.15, 2.46], t(5) = 0.93, p = 0.394; Std. beta = 1.04, 95% CI [-1.83, 3.92])
+##   - The effect of Algorithm [KNN] is statistically non-significant and positive (beta = 0.79, 95% CI [-0.12, 1.69], t(5) = 2.23, p = 0.076; Std. beta = 1.25, 95% CI [-0.19, 2.69])
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Summary
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#stargazer(nitrogen\_model, type = "text")}
+\CommentTok{\#sjPlot::tab\_model(nitrogen\_model, show.p = T, show.ci = T)}
+\CommentTok{\# Create a summary of the model}
+\NormalTok{nitrogen\_model\_summary }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(nitrogen\_model)}
+
+\CommentTok{\# Extract coefficients}
+\NormalTok{nitrogen\_coefficients }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(nitrogen\_model\_summary}\SpecialCharTok{$}\NormalTok{coefficients)}
+
+\CommentTok{\# Create a beautiful table}
+\FunctionTok{kable}\NormalTok{(nitrogen\_coefficients, }\AttributeTok{format =} \StringTok{"simple"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrrr@{}}
+\toprule\noalign{}
+& Estimate & Std. Error & t value &
+Pr(\textgreater\textbar t\textbar) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(Intercept) & 1.4562551 & 0.7030787 & 2.0712548 & 0.0930910 \\
+Croprice & 0.6261553 & 0.6882754 & 0.9097452 & 0.4046769 \\
+Cropgrapevine & -0.8349064 & 0.6088840 & -1.3712076 & 0.2286504 \\
+Cropwheat & -0.2791642 & 0.6088840 & -0.4584850 & 0.6658432 \\
+Croptea & -0.5036314 & 0.7457276 & -0.6753557 & 0.5294160 \\
+Cropcorn & -1.5331134 & 0.5695588 & -2.6917560 & 0.0432078 \\
+Stagebooting & -0.2176897 & 0.6088840 & -0.3575224 & 0.7352967 \\
+Stagevegetative & -0.3232314 & 0.3515394 & -0.9194742 & 0.4000331 \\
+Stagereproductive & -0.8720299 & 0.3515394 & -2.4806041 & 0.0557998 \\
+Stageleaf development & 1.5685123 & 0.4305460 & 3.6430771 & 0.0148555 \\
+AlgorithmRF & 0.8569121 & 0.5558325 & 1.5416733 & 0.1837903 \\
+AlgorithmBP & 0.6555303 & 0.7030787 & 0.9323711 & 0.3939424 \\
+AlgorithmSVM & 0.7850170 & 0.3515394 & 2.2330843 & 0.0758705 \\
+AlgorithmPLS & 0.8503219 & 0.7030787 & 1.2094264 & 0.2805593 \\
+AlgorithmANN & 1.0420579 & 0.3515394 & 2.9642710 & 0.0313638 \\
+AlgorithmXGBoost & 0.8569121 & 0.8244329 & 1.0393959 & 0.3462479 \\
+AlgorithmQDA & 0.7953179 & 0.8244329 & 0.9646849 & 0.3790085 \\
+AlgorithmDNN & 0.7953179 & 0.8244329 & 0.9646849 & 0.3790085 \\
+AlgorithmREPT & 0.5419882 & 0.8244329 & 0.6574073 & 0.5399727 \\
+AlgorithmKNN & 0.6991215 & 0.8244329 & 0.8480029 & 0.4351410 \\
+\end{longtable}
+
+\hypertarget{plot-the-residuals}{%
+\subsection{Plot the residuals}\label{plot-the-residuals}}
+
+\hypertarget{biomass-2}{%
+\subsubsection{Biomass}\label{biomass-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{biomass\_simulationOutput }\OtherTok{\textless{}{-}} \FunctionTok{simulateResiduals}\NormalTok{(}\AttributeTok{fittedModel =}\NormalTok{ biomass\_model)}
+\FunctionTok{plot}\NormalTok{(biomass\_simulationOutput)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{meta-analysis_files/figure-latex/unnamed-chunk-26-1.pdf}
+
+\hypertarget{yield-2}{%
+\subsubsection{Yield}\label{yield-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{yield\_simulationOutput }\OtherTok{\textless{}{-}} \FunctionTok{simulateResiduals}\NormalTok{(}\AttributeTok{fittedModel =}\NormalTok{ yield\_model)}
+\FunctionTok{plot}\NormalTok{(yield\_simulationOutput)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{meta-analysis_files/figure-latex/unnamed-chunk-27-1.pdf}
+
+\hypertarget{nitrogen-2}{%
+\subsubsection{Nitrogen}\label{nitrogen-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nitrogen\_simulationOutput }\OtherTok{\textless{}{-}} \FunctionTok{simulateResiduals}\NormalTok{(}\AttributeTok{fittedModel =}\NormalTok{ nitrogen\_model)}
+\FunctionTok{plot}\NormalTok{(nitrogen\_simulationOutput)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{meta-analysis_files/figure-latex/unnamed-chunk-28-1.pdf}
+
+\end{document}

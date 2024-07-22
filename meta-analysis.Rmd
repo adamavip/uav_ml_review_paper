@@ -1,0 +1,498 @@
+---
+title: "Analysis"
+author: "Adama NDOUR"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Load package
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readxl)
+library(paletteer)
+library(meta) # meta-analysis
+library(nnet) # Multinomial logit model
+library(GGally) # plot model coefficients
+library(recipes)
+library(recipeselectors)
+library(embed) # encoding
+library(report) # report statistical results
+library(stargazer) # formatting statistical results
+library(kableExtra) # format table
+library(DHARMa) # plot residuals of a linear model
+```
+
+
+## Load the data
+```{r}
+df <- read_excel("uav_review_data.xlsx")
+```
+
+## Overview of the data
+```{r}
+#str(df)
+```
+
+## Data manipulation: create a model class variable
+```{r}
+df <- df %>% mutate(
+  Model_Class = case_when(
+    RPD < 1.4 ~ "unrealiable models",
+    RPD >= 1.4 & RPD < 2 ~ "reasonable models",
+    RPD >=2 ~ "excellent models"
+  )
+)
+
+# Remove special characters
+df$Sensor <- str_replace_all(df$Sensor, "\r", " ")
+df$Sensor <- str_replace_all(df$Sensor, "\n", " ")
+df$Sensor <- str_replace_all(df$Sensor, "\\s+", " ")
+```
+
+## Exploratory Data Analysis (EDA)
+
+### Typology of Algorithms
+```{r}
+library(treemap)
+library(ggplotify)
+algos <- t %>% mutate(tot = sum(n)) %>% mutate(perc = (n/tot)*100)
+algos$label <- paste0(algos$n, " %")
+algos$label_comp <- paste(algos$Algorithm, algos$label, sep = "\n")
+# Open a PNG device
+png("output/treemap_algos_2.png", width = 8, height = 6, units = "in",res = 300)
+treemap(
+  algos,
+  index = "Algorithm",
+  vSize = "perc",
+  title = "",
+  fontsize.labels = 12,
+  #fontcolor.labels = "white",
+)
+dev.off()
+```
+
+### Which UAV platform maximize the performance of ML models
+```{r fig.height=5, fig.width=7, message=FALSE, warning=FALSE, dpi=300}
+df_trait <- df %>% filter(Problem=="trait estimation")
+#df_trait %>% group_by(Crop,Algorithm)
+n_shape_var <- length(unique(df_trait$Sensor))
+p<-df_trait %>% 
+  group_by(DOI, Trait, UAV_Type, Sensor, Algorithm,Model_Class) %>% 
+  summarise(RPD=mean(RPD)) %>% 
+  ggplot(aes(y=Algorithm, x=RPD, color=UAV_Type)) +
+  geom_point(aes(shape=Sensor))+
+  scale_shape_manual(values = 0:n_shape_var) +
+  scale_color_paletteer_d("ggthemes::calc")+
+  facet_grid(Trait~ Model_Class, scales = "free_y")+
+  theme_bw()+
+  theme(
+    legend.text = element_text(size = 8.5)
+  )
+ggsave("output/figure1.png",plot = p,dpi = 300)
+p
+```
+
+
+### Forest plot for the biomass
+
+```{r fig.height=5, fig.width=10, message=FALSE, warning=FALSE, dpi=300}
+# Install and load necessary packages
+# Load necessary libraries
+
+# Example RPD data
+biomass_data <- df_trait %>% filter(Trait=="AGB")
+
+# Calculate summary statistics
+biomass_rpd_summary <- biomass_data %>%
+  group_by(Algorithm) %>%
+  summarize(
+    mean_RPD = mean(RPD),
+    sd_RPD = sd(RPD),
+    n = n(),
+    SEM_RPD = sd_RPD / sqrt(n),
+    CI_Lower = mean_RPD - 1.96 * SEM_RPD,
+    CI_Upper = mean_RPD + 1.96 * SEM_RPD
+  )
+
+# Print the summary
+print(biomass_rpd_summary)
+
+# Combine data for all models
+biomass_meta_combined <- metagen(
+  TE = biomass_rpd_summary$mean_RPD,
+  lower = biomass_rpd_summary$CI_Lower,
+  upper = biomass_rpd_summary$CI_Upper,
+  studlab = biomass_rpd_summary$Algorithm,
+  sm = "Mean"
+)
+
+# Forest plot for all models
+# png(file = "output/forestplot_biomass.png", width = 10, height = 5, res = 300, units = "in")
+forest(biomass_meta_combined,
+       main = "Forest Plot of RPD for All Models of Biomass Estimation",
+       xlab = "RPD",
+       label.left = "Models",
+       studlab = biomass_rpd_summary$Algorithm,
+       print.tau2 = FALSE,
+       col.diamond = "blue",
+       col.predict = "red",
+       leftlabs = c("Models", "Mean", "SE(Mean)"))
+
+```
+
+
+### Forest plot for the yield
+
+```{r fig.height=5, fig.width=10, message=FALSE, warning=FALSE, dpi=300}
+# Install and load necessary packages
+# Load necessary libraries
+
+# Example RPD data
+yield_data <- df_trait %>% filter(Trait=="Yield")
+
+# Calculate summary statistics
+yield_rpd_summary <- yield_data %>%
+  group_by(Algorithm) %>%
+  summarize(
+    mean_RPD = mean(RPD),
+    sd_RPD = sd(RPD),
+    n = n(),
+    SEM_RPD = sd_RPD / sqrt(n),
+    CI_Lower = mean_RPD - 1.96 * SEM_RPD,
+    CI_Upper = mean_RPD + 1.96 * SEM_RPD
+  )
+
+# Print the summary
+print(yield_rpd_summary)
+
+# Combine data for all models
+yield_meta_combined <- metagen(
+  TE = yield_rpd_summary$mean_RPD,
+  lower = yield_rpd_summary$CI_Lower,
+  upper = yield_rpd_summary$CI_Upper,
+  studlab = yield_rpd_summary$Algorithm,
+  sm = "Mean"
+)
+
+# Forest plot for all models
+# png(file = "output/forestplot_yield.png", width = 10, height = 5, res = 300, units = "in")
+forest(yield_meta_combined,
+       main = "Forest Plot of RPD for All Models for Yield Estimation",
+       xlab = "RPD",
+       label.left = "Models",
+       studlab = yield_rpd_summary$Algorithm,
+       print.tau2 = FALSE,
+       col.diamond = "blue",
+       col.predict = "red",
+       leftlabs = c("Models", "Mean", "SE(Mean)"))
+
+```
+
+### Forest plot for the nitrogen
+
+```{r fig.height=5, fig.width=10, message=FALSE, warning=FALSE, dpi=300}
+# Install and load necessary packages
+# Load necessary libraries
+library(meta)
+
+# Example RPD data
+nitrogen_data <- df_trait %>% filter(Trait=="Nitrogen")
+
+# Calculate summary statistics
+nitrogen_rpd_summary <- nitrogen_data %>%
+  group_by(Algorithm) %>%
+  summarize(
+    mean_RPD = mean(RPD),
+    sd_RPD = sd(RPD),
+    n = n(),
+    SEM_RPD = sd_RPD / sqrt(n),
+    CI_Lower = mean_RPD - 1.96 * SEM_RPD,
+    CI_Upper = mean_RPD + 1.96 * SEM_RPD
+  )
+
+# Print the summary
+print(nitrogen_rpd_summary)
+
+# Combine data for all models
+nitrogen_meta_combined <- metagen(
+  TE = nitrogen_rpd_summary$mean_RPD,
+  lower = nitrogen_rpd_summary$CI_Lower,
+  upper = nitrogen_rpd_summary$CI_Upper,
+  studlab = nitrogen_rpd_summary$Algorithm,
+  sm = "Mean"
+)
+
+# Forest plot for all models
+#png(file = "output/forestplot_nitrogen.png", width = 10, height = 5, res = 300, units = "in")
+forest(nitrogen_meta_combined,
+       main = "Forest Plot of RPD for All Models of nitrogen Estimation",
+       xlab = "RPD",
+       label.left = "Models",
+       studlab = nitrogen_rpd_summary$Algorithm,
+       print.tau2 = FALSE,
+       comb.random = FALSE,
+       col.diamond = "blue",
+       col.predict = "red",
+       leftlabs = c("Models", "Mean", "SE(Mean)"))
+
+```
+
+## Multivariate Linear Regression: Key drivers of ML model performance 
+```{r}
+# Recode RPD variable to convert to factor predictors
+df_trait_model <- df_trait %>% 
+  mutate(
+    RPD_rec = recode_factor(Model_Class, 
+                            "unrealiable models" = "Bad",
+                            "reasonable models" = "Reliable",
+                            "excellent models" = "Excellent"),
+    Crop = as_factor(Crop),
+    Stage = as_factor(Stage),
+    Trait = as_factor(Trait),
+    UAV_Type = as_factor(UAV_Type),
+    Sensor = as_factor(Sensor),
+    Band = as_factor(Band),
+    Algorithm = as_factor(Algorithm)
+  )
+df_trait_model <- df_trait_model %>% 
+  select(RPD, Crop, Stage, Trait, UAV_Type, Sensor, Band, Altitude_m, Algorithm)
+
+```
+
+
+```{r}
+# Drop Na
+df_trait_model <- df_trait_model %>% drop_na(UAV_Type)
+```
+
+
+### Biomass
+
+```{r}
+# Example data
+biomass_model_data <- df_trait_model %>% filter(Trait=="AGB")
+
+# Remove trait
+biomass_model_data <- biomass_model_data %>% select(-Trait)
+
+# Standardize predictor variables
+recipe <- recipe(RPD ~ ., data=biomass_model_data) %>%
+    # convert string to factor
+    #step_string2factor(all_nominal()) %>%
+    # remove no variance predictors 
+    #recipes::step_nzv(all_nominal()) %>%
+    # factor to  dummy variables
+    #step_dummy(all_nominal(), one_hot=T) %>%
+    step_lencode_mixed(all_nominal_predictors() , outcome=vars(RPD)) %>%
+    # remove non-variance variables
+    step_nzv(where(is.numeric)) %>%
+    #step_dummy(all_nominal_predictors(), one_hot=F) %>%  # Convert categorical   variables to dummy variables
+    prep()
+
+# juice recipe
+biomass_model_data_final <- juice(recipe)
+
+# Fit the multinomial logistic regression model
+biomass_model <- lm(RPD ~. , data = biomass_model_data)
+```
+
+
+### Yield
+
+```{r}
+# Example data
+yield_model_data <- df_trait_model %>% filter(Trait=="Yield")
+
+# Remove trait
+yield_model_data <- yield_model_data %>% select(-Trait)
+
+# Standardize predictor variables
+recipe <- recipe(RPD ~ ., data=yield_model_data) %>%
+    # convert string to factor
+    #step_string2factor(all_nominal()) %>%
+    # remove no variance predictors 
+    #recipes::step_nzv(all_nominal()) %>%
+    # factor to  dummy variables
+    #step_dummy(all_nominal(), one_hot=T) %>%
+    step_lencode_mixed(all_nominal_predictors() , outcome=vars(RPD)) %>%
+    # remove non-variance variables
+    step_nzv(where(is.numeric)) %>%
+    #step_dummy(all_nominal_predictors(), one_hot=F) %>%  # Convert categorical   variables to dummy variables
+    prep()
+
+# juice recipe
+yield_model_data_final <- juice(recipe)
+
+# Fit the multinomial logistic regression model
+yield_model <- lm(RPD ~. , data = yield_model_data)
+```
+
+### Nitrogen
+
+```{r}
+# Example data
+nitrogen_model_data <- df_trait_model %>% filter(Trait=="Nitrogen")
+
+# Remove trait
+nitrogen_model_data <- nitrogen_model_data %>% select(-Trait)
+
+# Standardize predictor variables
+recipe <- recipe(RPD ~ ., data=nitrogen_model_data) %>%
+    # convert string to factor
+    #step_string2factor(all_nominal()) %>%
+    # remove no variance predictors 
+    #recipes::step_nzv(all_nominal()) %>%
+    # factor to  dummy variables
+    #step_dummy(all_nominal(), one_hot=T) %>%
+    step_lencode_mixed(all_nominal_predictors() , outcome=vars(RPD)) %>%
+    # remove non-variance variables
+    step_nzv(where(is.numeric)) %>%
+    #step_dummy(all_nominal_predictors(), one_hot=F) %>%  # Convert categorical   variables to dummy variables
+    prep()
+
+# juice recipe
+nitrogen_model_data_final <- juice(recipe)
+
+# Fit the multinomial logistic regression model
+nitrogen_model <- lm(RPD ~. , data = nitrogen_model_data)
+```
+
+## Report results
+### Biomass
+* Model
+```{r message=FALSE, warning=FALSE}
+report_model(biomass_model)
+```
+
+* Performance
+```{r message=FALSE, warning=FALSE}
+report_performance(biomass_model)
+```
+
+* Parameters
+```{r message=FALSE, warning=FALSE}
+report_parameters(biomass_model)
+```
+ * Summary
+```{r}
+library(flextable)
+library(officer)
+#stargazer(biomass_model, type = "text")
+#sjPlot::tab_model(biomass_model, show.p = T, show.ci = T)
+# Create a summary of the model
+biomass_model_summary <- summary(biomass_model)
+
+# Extract coefficients
+biomass_coefficients <- as.data.frame(biomass_model_summary$coefficients)
+
+# Create a beautiful table
+
+# Create a flextable object
+# ft <- flextable(biomass_coefficients)
+# 
+# # Customize the flextable
+# ft <- theme_vanilla(ft)
+# ft <- autofit(ft)
+# ft <- set_caption(ft, caption = "Customized Sample Table")
+# 
+# # Additional styling
+# ft <- bold(ft, part = "header")
+# ft <- bg(ft, part = "header", bg = "lightblue")
+# ft <- color(ft, part = "header", color = "white")
+# ft <- border_remove(ft)
+# ft <- border_outer(ft, border = fp_border(color = "black", width = 1))
+# ft <- border_inner_h(ft, border = fp_border(color = "gray", width = 0.5))
+# ft <- border_inner_v(ft, border = fp_border(color = "gray", width = 0.5))
+# 
+# # Display the flextable
+# ft
+# Create beautiful table
+kable(biomass_coefficients, format = "simple")  
+```
+ 
+### Yield
+* Model
+```{r message=FALSE, warning=FALSE}
+report_model(yield_model)
+```
+
+* Performance
+```{r message=FALSE, warning=FALSE}
+report_performance(yield_model)
+```
+
+* Parameters
+```{r message=FALSE, warning=FALSE}
+report_parameters(yield_model)
+```
+ * Summary
+```{r message=FALSE, warning=FALSE}
+#stargazer(yield_model, type = "text")
+#sjPlot::tab_model(yield_model, show.p = T, show.ci = T)
+# Create a summary of the model
+yield_model_summary <- summary(yield_model)
+
+# Extract coefficients
+yield_coefficients <- as.data.frame(yield_model_summary$coefficients)
+
+# Create a beautiful table
+kable(yield_coefficients, format = "simple")  
+```
+
+### Nitrogen
+* Model
+```{r message=FALSE, warning=FALSE}
+report_model(nitrogen_model)
+```
+
+* Performance
+```{r message=FALSE, warning=FALSE}
+report_performance(nitrogen_model)
+```
+
+* Parameters
+```{r message=FALSE, warning=FALSE}
+report_parameters(nitrogen_model)
+```
+ * Summary
+```{r message=FALSE, warning=FALSE}
+#stargazer(nitrogen_model, type = "text")
+#sjPlot::tab_model(nitrogen_model, show.p = T, show.ci = T)
+# Create a summary of the model
+nitrogen_model_summary <- summary(nitrogen_model)
+
+# Extract coefficients
+nitrogen_coefficients <- as.data.frame(nitrogen_model_summary$coefficients)
+
+# Create a beautiful table
+kable(nitrogen_coefficients, format = "simple") 
+```
+
+## Plot the residuals
+### Biomass
+```{r message=FALSE, warning=FALSE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE, dpi=300}
+biomass_simulationOutput <- simulateResiduals(fittedModel = biomass_model)
+plot(biomass_simulationOutput)
+```
+
+### Yield
+```{r message=FALSE, warning=FALSE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE, dpi=300}
+yield_simulationOutput <- simulateResiduals(fittedModel = yield_model)
+plot(yield_simulationOutput)
+```
+
+
+### Nitrogen
+```{r message=FALSE, warning=FALSE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE, dpi=300}
+nitrogen_simulationOutput <- simulateResiduals(fittedModel = nitrogen_model)
+plot(nitrogen_simulationOutput)
+```
+
+
