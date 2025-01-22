@@ -1,0 +1,16 @@
+"Var1","Var2","coef_estimates"
+"(Intercept)",NA,1.81597795765067
+"`Sensor_Micasense RedEdge`",NA,-0.00844684917523744
+"`Sensor_Parrot Sequoia`",NA,0.0348955988305596
+"Band_B_G_R_RE_NIR",NA,-0.035641049662396
+"Band_G_R_RE_NIR",NA,0.0361082120773919
+"Algorithm_ANN",NA,0.0356967590608299
+"Altitude_m","Algorithm_ANN",0.00179125526645709
+"Crop_cereal","`Sensor_Parrot Sequoia`",0.0360799280815992
+"Crop_cereal","Band_G_R_RE_NIR",0.0357633065938101
+"Crop_cereal","Algorithm_ANN",0.0357682046650401
+"`UAV_Type_AscTec Pelican`","Algorithm_ANN",0.0357190279012013
+"`Sensor_Micasense RedEdge`","Band_B_G_R_RE_NIR",-0.00856352935412997
+"`Sensor_Parrot Sequoia`","Band_G_R_RE_NIR",0.035186588863164
+"`Sensor_Parrot Sequoia`","Algorithm_ANN",0.0355669435759106
+"Band_G_R_RE_NIR","Algorithm_ANN",0.0355898890243242

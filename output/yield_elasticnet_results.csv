@@ -1,0 +1,24 @@
+"Var1","Var2","coef_estimates"
+"(Intercept)",NA,1.66352029445849
+"Crop_strawberry",NA,0.100499845783056
+"`UAV_Type_eBee wing-fixed`",NA,-0.0220789209140084
+"`UAV_Type_DJI Inspire 2`",NA,0.100666435316519
+"`Sensor_Micasense RedEdge`",NA,0.0220564430944714
+"Sensor_Other",NA,-0.0211621133645482
+"Band_B_G_R_RE_NIR",NA,0.0195916122099272
+"Band_G_R_RE_NIR",NA,-0.0177503478979599
+"Crop_cereal","`UAV_Type_eBee wing-fixed`",-0.0161097444689874
+"Crop_cereal","Sensor_Other",-0.0150762326437369
+"Crop_cereal","Band_G_R_RE_NIR",-0.0148849483541815
+"Crop_strawberry","`UAV_Type_DJI Inspire 2`",0.0986621562610862
+"Crop_strawberry","`Sensor_Micasense RedEdge`",0.0984131739432726
+"Crop_strawberry","Band_B_G_R_RE_NIR",0.098321526170353
+"`UAV_Type_eBee wing-fixed`","Sensor_Other",-0.016079895594864
+"`UAV_Type_eBee wing-fixed`","Band_G_R_RE_NIR",-0.0175754198259151
+"`UAV_Type_eBee wing-fixed`","Algorithm_Other",-0.00940941776316483
+"`UAV_Type_DJI Inspire 2`","`Sensor_Micasense RedEdge`",0.0986974028090656
+"`UAV_Type_DJI Inspire 2`","Band_B_G_R_RE_NIR",0.0988867677188493
+"`Sensor_Micasense RedEdge`","Band_B_G_R_RE_NIR",0.0190632451560233
+"Sensor_Other","Band_G_R_RE_NIR",-0.0208092643519405
+"Sensor_Other","Algorithm_Other",-0.0107955869797736
+"Band_G_R_RE_NIR","Algorithm_Other",-0.0104380421725887

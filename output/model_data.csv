@@ -1,0 +1,61 @@
+"RPD","Trait","Crop","UAV_Type","Sensor","Band","Algorithm","Altitude_m"
+2.61936339522546,"AGB","strawberry","DJI Inspire 2","Micasense RedEdge","B_G_R_RE_NIR","MLR",15
+2.55498059508409,"AGB","strawberry","DJI Inspire 2","Micasense RedEdge","B_G_R_RE_NIR","RF",15
+2.57496740547588,"AGB","strawberry","DJI Inspire 2","Micasense RedEdge","B_G_R_RE_NIR","SVM",15
+2.44128553770087,"AGB","strawberry","DJI Inspire 2","Micasense RedEdge","B_G_R_RE_NIR","Other",15
+2.68707482993197,"AGB","strawberry","DJI Inspire 2","Micasense RedEdge","B_G_R_RE_NIR","Other",15
+2.75837988826816,"AGB","strawberry","DJI Inspire 2","Micasense RedEdge","B_G_R_RE_NIR","ANN",15
+1.41666666666667,"Nitrogen","grapevine","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","Other",15
+1.47826086956522,"Nitrogen","grapevine","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","RF",15
+1.47826086956522,"Nitrogen","grapevine","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","Other",15
+1.41666666666667,"Nitrogen","grapevine","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","Other",15
+1.40664961636829,"Nitrogen","cereal","AscTec Pelican","Parrot Sequoia","G_R_RE_NIR","MLR",20
+1.26436781609195,"Nitrogen","cereal","AscTec Pelican","Parrot Sequoia","G_R_RE_NIR","MLR",20
+2.38095238095238,"Nitrogen","cereal","AscTec Pelican","Parrot Sequoia","G_R_RE_NIR","MLR",20
+2.35042735042735,"Nitrogen","cereal","AscTec Pelican","Parrot Sequoia","G_R_RE_NIR","SVM",20
+2.36051502145923,"Nitrogen","cereal","AscTec Pelican","Parrot Sequoia","G_R_RE_NIR","SVM",20
+2.69607843137255,"Nitrogen","cereal","AscTec Pelican","Parrot Sequoia","G_R_RE_NIR","SVM",20
+3.34753499695679,"Nitrogen","cereal","AscTec Pelican","Parrot Sequoia","G_R_RE_NIR","ANN",20
+1.83333333333333,"Nitrogen","cereal","AscTec Pelican","Parrot Sequoia","G_R_RE_NIR","ANN",20
+2.99727520435967,"Nitrogen","cereal","AscTec Pelican","Parrot Sequoia","G_R_RE_NIR","ANN",20
+1.25465508869793,"AGB","oats","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","Other",25
+1.28724353256021,"AGB","oats","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","RF",25
+1.23897190008921,"AGB","oats","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","SVM",25
+1.19418978321851,"AGB","oats","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","ANN",25
+2.02281126545176,"AGB","oats","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","Other",25
+1.87014626428559,"AGB","oats","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","RF",25
+1.98235504014273,"AGB","oats","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","SVM",25
+1.94348533347326,"AGB","oats","DJI Matrice","Micasense RedEdge","B_G_R_RE_NIR","ANN",25
+1.73764072442487,"Nitrogen","tea","DJI Matrice","Other","B_G_R_RE_NIR","SVM",25
+1.80294565769426,"Nitrogen","tea","DJI Matrice","Other","B_G_R_RE_NIR","Other",25
+1.60815402038505,"Nitrogen","tea","DJI Matrice","Other","B_G_R_RE_NIR","Other",25
+2.03400309119011,"Nitrogen","cereal","eBee Ag","Parrot Sequoia","G_R_RE_NIR","RF",30
+1.81631342324984,"Nitrogen","cereal","eBee Ag","Parrot Sequoia","G_R_RE_NIR","RF",30
+1.64705882352941,"Yield","cereal","eBee Ag","Parrot Sequoia","G_R_RE_NIR","RF",56
+1.80645161290323,"Yield","cereal","eBee Ag","Parrot Sequoia","G_R_RE_NIR","Other",56
+1.6,"Yield","cereal","eBee Ag","Parrot Sequoia","G_R_RE_NIR","Other",56
+1.93103448275862,"Yield","cereal","eBee Ag","Parrot Sequoia","G_R_RE_NIR","MLR",56
+2.10557184750733,"AGB","cereal","DJ M100 four-rotator","Micasense RedEdge","B_G_R_RE_NIR","MLR",60
+1.98891966759003,"AGB","cereal","DJ M100 four-rotator","Micasense RedEdge","B_G_R_RE_NIR","RF",60
+1.60267857142857,"AGB","cereal","DJ M100 four-rotator","Micasense RedEdge","B_G_R_RE_NIR","Other",60
+1.98891966759003,"AGB","cereal","DJ M100 four-rotator","Micasense RedEdge","B_G_R_RE_NIR","SVM",60
+2.41935483870968,"Nitrogen","cereal","DJ M100 four-rotator","Micasense RedEdge","B_G_R_RE_NIR","RF",60
+2.20588235294118,"Nitrogen","cereal","DJ M100 four-rotator","Micasense RedEdge","B_G_R_RE_NIR","SVM",60
+0.70926517571885,"Nitrogen","cereal","DJ M100 four-rotator","Micasense RedEdge","B_G_R_RE_NIR","RF",60
+0.778947368421053,"Nitrogen","cereal","DJ M100 four-rotator","Micasense RedEdge","B_G_R_RE_NIR","SVM",60
+2.03,"Yield","soybean","RPAS Phantom 4 Pro","Parrot Sequoia","G_R_RE_NIR","Other",70
+1.36923076923077,"Yield","grapevine","Microdrones Md4-1000 quadcopter","Parrot Sequoia","G_R_RE_NIR","MLR",75
+1.1125,"Yield","grapevine","Microdrones Md4-1000 quadcopter","Parrot Sequoia","G_R_RE_NIR","MLR",75
+1.97777777777778,"Yield","grapevine","Microdrones Md4-1000 quadcopter","Parrot Sequoia","G_R_RE_NIR","MLR",75
+2.225,"Yield","grapevine","Microdrones Md4-1000 quadcopter","Parrot Sequoia","G_R_RE_NIR","ANN",75
+1.48333333333333,"Yield","grapevine","Microdrones Md4-1000 quadcopter","Parrot Sequoia","G_R_RE_NIR","ANN",75
+3.56,"Yield","grapevine","Microdrones Md4-1000 quadcopter","Parrot Sequoia","G_R_RE_NIR","ANN",75
+2.31316725978648,"Nitrogen","cereal","eBee wing-fixed","Parrot Sequoia","G_R_RE_NIR","RF",100
+1.99824330259113,"Nitrogen","cereal","eBee wing-fixed","Parrot Sequoia","G_R_RE_NIR","Other",100
+2.15537659876836,"Nitrogen","cereal","eBee wing-fixed","Parrot Sequoia","G_R_RE_NIR","Other",100
+1.43027888446215,"AGB","cereal","eBee wing-fixed","Other","G_R_RE_NIR","MLR",120
+1.30783242258652,"AGB","cereal","eBee wing-fixed","Other","G_R_RE_NIR","RF",120
+0.982216142270862,"AGB","cereal","eBee wing-fixed","Other","G_R_RE_NIR","Other",120
+1.34205607476636,"AGB","cereal","eBee wing-fixed","Other","G_R_RE_NIR","SVM",120
+1.02272727272727,"Yield","cereal","DJI Matrice","Other","G_R_RE_NIR_TIR","MLR",120
+1.09756097560976,"Yield","cereal","DJI Matrice","Other","G_R_RE_NIR_TIR","Other",120

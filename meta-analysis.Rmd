@@ -20,9 +20,6 @@ library(paletteer)
 library(meta) # meta-analysis
 library(nnet) # Multinomial logit model
 library(GGally) # plot model coefficients
-library(recipes)
-library(recipeselectors)
-library(embed) # encoding
 library(report) # report statistical results
 library(stargazer) # formatting statistical results
 library(kableExtra) # format table
@@ -62,11 +59,13 @@ df$Sensor <- str_replace_all(df$Sensor, "\\s+", " ")
 ```{r}
 library(treemap)
 library(ggplotify)
+t <- df %>% 
+  count(Algorithm)
 algos <- t %>% mutate(tot = sum(n)) %>% mutate(perc = (n/tot)*100)
 algos$label <- paste0(algos$n, " %")
 algos$label_comp <- paste(algos$Algorithm, algos$label, sep = "\n")
 # Open a PNG device
-png("output/treemap_algos_2.png", width = 8, height = 6, units = "in",res = 300)
+#png("output/treemap_algos_2.png", width = 8, height = 6, units = "in",res = 300)
 treemap(
   algos,
   index = "Algorithm",
@@ -75,7 +74,7 @@ treemap(
   fontsize.labels = 12,
   #fontcolor.labels = "white",
 )
-dev.off()
+#dev.off()
 ```
 
 ### Which UAV platform maximize the performance of ML models
@@ -83,9 +82,10 @@ dev.off()
 df_trait <- df %>% filter(Problem=="trait estimation")
 #df_trait %>% group_by(Crop,Algorithm)
 n_shape_var <- length(unique(df_trait$Sensor))
-p<-df_trait %>% 
+df_trait_sum <- df_trait %>% 
   group_by(DOI, Trait, UAV_Type, Sensor, Algorithm,Model_Class) %>% 
-  summarise(RPD=mean(RPD)) %>% 
+  summarise(RPD=mean(RPD))
+p<- df_trait_sum %>% 
   ggplot(aes(y=Algorithm, x=RPD, color=UAV_Type)) +
   geom_point(aes(shape=Sensor))+
   scale_shape_manual(values = 0:n_shape_var) +
@@ -94,7 +94,10 @@ p<-df_trait %>%
   theme_bw()+
   theme(
     legend.text = element_text(size = 8.5)
-  )
+  )+
+  geom_vline(xintercept = c(1.4, 2), 
+             linetype = "dashed", color = "black", size=0.3 )
+  
 ggsave("output/figure1.png",plot = p,dpi = 300)
 p
 ```
@@ -134,16 +137,19 @@ biomass_meta_combined <- metagen(
 )
 
 # Forest plot for all models
-# png(file = "output/forestplot_biomass.png", width = 10, height = 5, res = 300, units = "in")
+png(file = "output/forestplot_biomass.png", width = 10, height = 5, res = 300, units = "in")
 forest(biomass_meta_combined,
        main = "Forest Plot of RPD for All Models of Biomass Estimation",
        xlab = "RPD",
-       label.left = "Models",
        studlab = biomass_rpd_summary$Algorithm,
        print.tau2 = FALSE,
        col.diamond = "blue",
        col.predict = "red",
-       leftlabs = c("Models", "Mean", "SE(Mean)"))
+       rightcols = c("effect", "ci","w.common"),
+       leftcols = c("studlab"),
+       leftlabs = c("Models"))
+
+
 
 ```
 
@@ -182,7 +188,7 @@ yield_meta_combined <- metagen(
 )
 
 # Forest plot for all models
-# png(file = "output/forestplot_yield.png", width = 10, height = 5, res = 300, units = "in")
+png(file = "output/forestplot_yield.png", width = 10, height = 5, res = 300, units = "in")
 forest(yield_meta_combined,
        main = "Forest Plot of RPD for All Models for Yield Estimation",
        xlab = "RPD",
@@ -191,8 +197,13 @@ forest(yield_meta_combined,
        print.tau2 = FALSE,
        col.diamond = "blue",
        col.predict = "red",
-       leftlabs = c("Models", "Mean", "SE(Mean)"))
-
+       rightcols = c("effect", "ci","w.common"),
+       leftcols = c("studlab"),
+       leftlabs = c("Models"),
+       layout = "meta"
+       
+       )
+dev.off()
 ```
 
 ### Forest plot for the nitrogen
@@ -230,7 +241,7 @@ nitrogen_meta_combined <- metagen(
 )
 
 # Forest plot for all models
-#png(file = "output/forestplot_nitrogen.png", width = 10, height = 5, res = 300, units = "in")
+png(file = "output/forestplot_nitrogen.png", width = 10, height = 5, res = 300, units = "in")
 forest(nitrogen_meta_combined,
        main = "Forest Plot of RPD for All Models of nitrogen Estimation",
        xlab = "RPD",
@@ -240,29 +251,32 @@ forest(nitrogen_meta_combined,
        comb.random = FALSE,
        col.diamond = "blue",
        col.predict = "red",
-       leftlabs = c("Models", "Mean", "SE(Mean)"))
+       rightcols = c("effect", "ci","w.common"),
+       leftcols = c("studlab"),
+       leftlabs = c("Models"),
+       layout = "meta")
 
 ```
 
 ## Multivariate Linear Regression: Key drivers of ML model performance 
 ```{r}
 # Recode RPD variable to convert to factor predictors
+# df_trait_model <- df_trait %>% 
+#   mutate(
+#     RPD_rec = recode_factor(Model_Class, 
+#                             "unrealiable models" = "Bad",
+#                             "reasonable models" = "Reliable",
+#                             "excellent models" = "Excellent"),
+#     Crop = as_factor(Crop),
+#     Stage = as_factor(Stage),
+#     Trait = as_factor(Trait),
+#     UAV_Type = as_factor(UAV_Type),
+#     Sensor = as_factor(Sensor),
+#     Band = as_factor(Band),
+#     Algorithm = as_factor(Algorithm)
+#   )
 df_trait_model <- df_trait %>% 
-  mutate(
-    RPD_rec = recode_factor(Model_Class, 
-                            "unrealiable models" = "Bad",
-                            "reasonable models" = "Reliable",
-                            "excellent models" = "Excellent"),
-    Crop = as_factor(Crop),
-    Stage = as_factor(Stage),
-    Trait = as_factor(Trait),
-    UAV_Type = as_factor(UAV_Type),
-    Sensor = as_factor(Sensor),
-    Band = as_factor(Band),
-    Algorithm = as_factor(Algorithm)
-  )
-df_trait_model <- df_trait_model %>% 
-  select(RPD, Crop, Stage, Trait, UAV_Type, Sensor, Band, Altitude_m, Algorithm)
+  select(RPD, DOI, Crop, Stage, Trait, UAV_Type, Sensor, Band, Altitude_m, Algorithm)
 
 ```
 
@@ -270,229 +284,450 @@ df_trait_model <- df_trait_model %>%
 ```{r}
 # Drop Na
 df_trait_model <- df_trait_model %>% drop_na(UAV_Type)
+# Data manipulation
+df_trait_model$Band <- str_replace_all(df_trait_model$Band,", ","_")
+
 ```
 
 
-### Biomass
 
 ```{r}
-# Example data
-biomass_model_data <- df_trait_model %>% filter(Trait=="AGB")
+library(forcats)
+# Group sensor levels
+df_trait_model_rec1 <- df_trait_model %>% 
+  # group_by(Sensor) %>% 
+  # filter(n_distinct(DOI) >= 2) %>% 
+  # ungroup()
+  mutate(Sensor = case_when(
+    grepl("^Micasense RedEdge",Sensor)~ "Micasense RedEdge",
+    grepl("^Parrot Sequoia", Sensor) ~ "Parrot Sequoia",
+    TRUE ~ "Other"
+  ))
 
-# Remove trait
-biomass_model_data <- biomass_model_data %>% select(-Trait)
+# Remove crops that appear in one paper and group cereal crops
+df_trait_model_rec2<- df_trait_model_rec1 %>%
+  # group_by(Crop) %>%
+  # filter(n_distinct(DOI) >= 2) #%>%
+  # ungroup() %>%
+  mutate(
+    Crop = case_when(
+      (Crop=="maize") | (Crop=="rice") | Crop=="wheat" ~ "cereal",
+      TRUE~Crop
+    )
+  )
 
-# Standardize predictor variables
-recipe <- recipe(RPD ~ ., data=biomass_model_data) %>%
-    # convert string to factor
-    #step_string2factor(all_nominal()) %>%
-    # remove no variance predictors 
-    #recipes::step_nzv(all_nominal()) %>%
-    # factor to  dummy variables
-    #step_dummy(all_nominal(), one_hot=T) %>%
-    step_lencode_mixed(all_nominal_predictors() , outcome=vars(RPD)) %>%
-    # remove non-variance variables
-    step_nzv(where(is.numeric)) %>%
-    #step_dummy(all_nominal_predictors(), one_hot=F) %>%  # Convert categorical   variables to dummy variables
-    prep()
+# Group DJI matrice UAVs and remove UAVs that appear in one paper
+df_trait_model_rec3 <- df_trait_model_rec2 %>%
+  mutate(UAV_Type = case_when(
+    grepl("^DJI Matrice", UAV_Type) ~ "DJI Matrice",
+    TRUE ~ UAV_Type
+  )) 
+#   group_by(UAV_Type) %>% 
+#   filter(n_distinct(DOI) >= 2) %>% 
+#   ungroup() 
 
-# juice recipe
-biomass_model_data_final <- juice(recipe)
+# Remove bands that appear in one paper
+# df_trait_model_rec3 <- df_trait_model_rec2 %>% 
+#   group_by(Band) %>% 
+#   filter(n_distinct(DOI) >= 2) %>% 
+#   ungroup()
 
-# Fit the multinomial logistic regression model
-biomass_model <- lm(RPD ~. , data = biomass_model_data)
+# Remove algorithms that appear in one paper
+df_trait_model_rec4 <- df_trait_model_rec3 %>% 
+  mutate(across(where(is.character), ~ as.factor(.x))) %>% 
+  # group_by(Algorithm) %>% 
+  # filter(n_distinct(DOI) >= 2) %>% 
+  # ungroup() 
+  mutate(Algorithm = fct_lump(Algorithm,4))
+
+# Select the final variables for the regression analysis
+
+df_trait_model_rec5 <- df_trait_model_rec4 %>% 
+  # mutate(across(where(is.character), ~ as.factor(.x))) %>% 
+  # mutate(across(where(is.factor), ~ fct_lump(.x, 3))) %>% 
+  select(RPD, Trait,Crop, UAV_Type, Sensor, Band, Algorithm, Altitude_m)
 ```
 
+
+## Modeling
+```{r}
+model_data <- df_trait_model_rec5
+write.csv(model_data,file = "output/model_data.csv",row.names = F)
+```
+
+### Check collinearity between features
+```{r}
+library(fastDummies)
+check_corr <- function(trait_data) {
+  dummy_data <- dummy_cols(trait_data, 
+                           select_columns = c("Crop", "UAV_Type", 
+                                              "Sensor", "Band", "Algorithm"),
+                           remove_first_dummy = F,  # Optionally remove the first                             dummy to avoid multicollinearity
+                          remove_selected_columns = TRUE)  # Remove original columns
+  
+  corr_matrix <- cor(dummy_data)
+  corrplot::corrplot(corr = corr_matrix)
+  return (dummy_data)}
+
+
+```
+
+
+### biomass
+```{r}
+biomass_data <- model_data %>% 
+  filter(Trait=="AGB") %>% 
+  select(-Trait)
+```
+#### Definition of the intercept
+Let set the intercept to be Crop = cereal, UAV Type = AscTec Pelican, Sensor = Micasense RedEdge, Band = B_G_R_RE_NIR, Algorithm = MLR, and Altitude = 15:
+```{r}
+# Relevel categorical variables
+biomass_data$Crop <- relevel(biomass_data$Crop, ref = "cereal")
+biomass_data$Crop <- droplevels(biomass_data$Crop) # drop levels that doesn't exist
+biomass_data$UAV_Type <- relevel(biomass_data$UAV_Type, ref = "eBee wing-fixed")
+biomass_data$UAV_Type <- droplevels(biomass_data$UAV_Type)
+biomass_data$Sensor <- relevel(biomass_data$Sensor, ref = "Micasense RedEdge")
+biomass_data$Sensor <- droplevels(biomass_data$Sensor)
+biomass_data$Band <- relevel(biomass_data$Band, ref = "B_G_R_RE_NIR")
+biomass_data$Band <- droplevels(biomass_data$Band)
+biomass_data$Algorithm <- relevel(biomass_data$Algorithm, ref = "MLR")
+biomass_data$Algorithm <- droplevels(biomass_data$Algorithm)
+
+# Set altitude to 15 as a reference: subtract 15 from all the values in the Altitude column. This will make 15 the reference point (i.e., the value where Altitude = 0 in the model).
+#biomass_data$Altitude_m <- biomass_data$Altitude_m
+```
+
+#### Preprocess the data
+```{r}
+biomass_data_final <- check_corr(biomass_data)
+```
+
+#### Model Building
+
+
+```{r}
+library(glmnet)
+
+# Prepare the data
+y <- biomass_data_final$RPD
+X <- select(biomass_data_final, -c(RPD, Altitude_m))  # Exclude intercept
+X <- as.matrix(X)
+X_interactions <- model.matrix(~ (.)^2, data = as.data.frame(X))
+X_interactions <- X_interactions[,-1] # remove intercept
+
+# Perform cross-validation to find the best alpha and lambda
+set.seed(123)  # For reproducibility
+cv_elastic_net <- cv.glmnet(X_interactions, y, alpha = 0.5)  # alpha = 0.5 for Elastic Net
+
+# Extract the best lambda value
+best_lambda <- cv_elastic_net$lambda.min
+
+# Fit the final Elastic Net model
+final_model <- glmnet(X_interactions, y, alpha = 0.5, lambda = best_lambda)
+
+# View the coefficients
+#print(coef(final_model))
+```
+
+#### Plot interactions
+```{r fig.height=8, fig.width=18, warning=FALSE, fig.dpi=300}
+library(networkD3)
+library(ggraph)
+library(tidygraph)
+library(tidyr)
+library(dplyr)
+set_graph_style(plot_margin = margin(1,1,1,1))
+
+# Get the coefficients of the variables
+coefficients <- coef(final_model)
+df_coefs <- data.frame(
+     variables = names(coefficients[,1]),
+     coef_estimates = as.numeric(coefficients[,1])
+ )
+
+# Remove zero coefficients
+df_coefs <- df_coefs %>% filter(coef_estimates !=0)
+
+
+# Split variables string in 2 columns using the ':' as the separator
+df_coefs2 <- df_coefs %>%
+  separate(variables, into = c("Var1", "Var2"), sep = ":")  # Separate the interaction terms
+write.csv(df_coefs2, file="output/biomass_elasticnet_results.csv", row.names = F)
+
+interaction_df <-df_coefs2 %>% filter(!is.na(Var2))
+
+nodes <- unique(c(interaction_df$Var1, interaction_df$Var2))
+edges <- data.frame(
+  from = match(interaction_df$Var1, nodes),
+  to = match(interaction_df$Var2, nodes) ,
+  value = abs(interaction_df$coef_estimates)*5
+) %>% 
+  mutate(contribution = ifelse(interaction_df$coef_estimates>0, "positive", "negative"))
+nods <- data.frame(name=nodes)
+graph <- tbl_graph(nodes=nods, edges=edges, directed = F)
+
+
+# Not specifying the layout - defaults to "auto"
+
+p<-ggraph(graph, layout = 'stress') + 
+  geom_edge_link(aes(colour=contribution)) +
+  geom_node_point(size=7, color="blue", alpha=0.6)+
+  geom_node_text(aes(label = name), vjust = 1.5, size=5.5)+
+  theme_graph(base_size = 18)+
+  theme(legend.position = "top")
+p
+
+# Save the graph 
+ggsave("output/interaction_network_biomass.png", p, units = "in",
+       width = 18, height = 8, dpi = 300)
+
+
+```
+
+
+
+<!-- #### Plot the residuals -->
+<!-- ```{r message=FALSE, warning=FALSE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE, dpi=300} -->
+<!-- simulationOutput <- simulateResiduals(fittedModel = final_model) -->
+<!-- plot(simulationOutput) -->
+
+<!-- ``` -->
 
 ### Yield
+```{r}
+yield_data <- model_data %>% 
+  filter(Trait=="Yield") %>% 
+  select(-Trait)
+```
+#### Definition of the intercept
+Let set the intercept to be Crop = cereal, UAV Type = AscTec Pelican, Sensor = Micasense RedEdge, Band = B_G_R_RE_NIR, Algorithm = MLR, and Altitude = 15:
+```{r}
+# Relevel categorical variables
+yield_data$Crop <- relevel(yield_data$Crop, ref = "cereal")
+yield_data$Crop <- droplevels(yield_data$Crop) # drop levels that doesn't exist
+yield_data$UAV_Type <- relevel(yield_data$UAV_Type, ref = "eBee wing-fixed")
+yield_data$UAV_Type <- droplevels(yield_data$UAV_Type)
+yield_data$Sensor <- relevel(yield_data$Sensor, ref = "Micasense RedEdge")
+yield_data$Sensor <- droplevels(yield_data$Sensor)
+yield_data$Band <- relevel(yield_data$Band, ref = "B_G_R_RE_NIR")
+yield_data$Band <- droplevels(yield_data$Band)
+yield_data$Algorithm <- relevel(yield_data$Algorithm, ref = "MLR")
+yield_data$Algorithm <- droplevels(yield_data$Algorithm)
+
+# Set altitude to 15 as a reference: subtract 15 from all the values in the Altitude column. This will make 15 the reference point (i.e., the value where Altitude = 0 in the model).
+#yield_data$Altitude_m <- yield_data$Altitude_m
+```
+
+#### Preprocess the data
+```{r}
+yield_data_final <- check_corr(yield_data)
+```
+
+#### Model Building
+
 
 ```{r}
-# Example data
-yield_model_data <- df_trait_model %>% filter(Trait=="Yield")
+library(glmnet)
 
-# Remove trait
-yield_model_data <- yield_model_data %>% select(-Trait)
+# Prepare the data
+y <- yield_data_final$RPD
+X <- select(yield_data_final, -c(RPD))  #-c(RPD, Altitude_m)
+X <- as.matrix(X)
+X_interactions <- model.matrix(~ (.)^2, data = as.data.frame(X))
+X_interactions <- X_interactions[,-1] # remove intercept
 
-# Standardize predictor variables
-recipe <- recipe(RPD ~ ., data=yield_model_data) %>%
-    # convert string to factor
-    #step_string2factor(all_nominal()) %>%
-    # remove no variance predictors 
-    #recipes::step_nzv(all_nominal()) %>%
-    # factor to  dummy variables
-    #step_dummy(all_nominal(), one_hot=T) %>%
-    step_lencode_mixed(all_nominal_predictors() , outcome=vars(RPD)) %>%
-    # remove non-variance variables
-    step_nzv(where(is.numeric)) %>%
-    #step_dummy(all_nominal_predictors(), one_hot=F) %>%  # Convert categorical   variables to dummy variables
-    prep()
+# Perform cross-validation to find the best alpha and lambda
+set.seed(123)  # For reproducibility
+cv_elastic_net <- cv.glmnet(X_interactions, y, alpha = 0.5)  # alpha = 0.5 for Elastic Net
 
-# juice recipe
-yield_model_data_final <- juice(recipe)
+# Extract the best lambda value
+best_lambda <- cv_elastic_net$lambda.min
 
-# Fit the multinomial logistic regression model
-yield_model <- lm(RPD ~. , data = yield_model_data)
+# Fit the final Elastic Net model
+final_model <- glmnet(X_interactions, y, alpha = 0.5, lambda = best_lambda)
+
+# View the coefficients
+#print(coef(final_model))
+```
+
+#### Plot interactions
+```{r fig.height=8, fig.width=18, warning=FALSE, fig.dpi=300}
+library(networkD3)
+library(ggraph)
+library(tidygraph)
+library(tidyr)
+library(dplyr)
+set_graph_style(plot_margin = margin(1,1,1,1))
+
+# Get the coefficients of the variables
+coefficients <- coef(final_model)
+df_coefs <- data.frame(
+     variables = names(coefficients[,1]),
+     coef_estimates = as.numeric(coefficients[,1])
+ )
+
+# Remove zero coefficients
+df_coefs <- df_coefs %>% filter(coef_estimates !=0)
+
+
+# Split variables string in 2 columns using the ':' as the separator
+df_coefs2 <- df_coefs %>%
+  separate(variables, into = c("Var1", "Var2"), sep = ":")  # Separate the interaction terms
+
+write.csv(df_coefs2, file="output/yield_elasticnet_results.csv", row.names = F)
+
+interaction_df <-df_coefs2 %>% filter(!is.na(Var2))
+
+nodes <- unique(c(interaction_df$Var1, interaction_df$Var2))
+edges <- data.frame(
+  from = match(interaction_df$Var1, nodes),
+  to = match(interaction_df$Var2, nodes) ,
+  value = abs(interaction_df$coef_estimates)*5
+) %>% 
+  mutate(contribution = ifelse(interaction_df$coef_estimates>0, "positive", "negative"))
+nods <- data.frame(name=nodes)
+graph <- tbl_graph(nodes=nods, edges=edges, directed = F)
+
+
+# Not specifying the layout - defaults to "auto"
+
+p<-ggraph(graph, layout = 'stress') + 
+  geom_edge_link(aes(colour=contribution)) +
+  geom_node_point(size=7, color="blue", alpha=0.6)+
+  geom_node_text(aes(label = name), vjust = 1.5, size=5.5)+
+  theme_graph(base_size = 18)+
+  theme(legend.position = "top")
+p
+
+# Save the graph 
+ggsave("output/interaction_network_yield.png", p, units = "in",
+       width = 18, height = 8, dpi = 300)
+
+
 ```
 
 ### Nitrogen
 
 ```{r}
-# Example data
-nitrogen_model_data <- df_trait_model %>% filter(Trait=="Nitrogen")
-
-# Remove trait
-nitrogen_model_data <- nitrogen_model_data %>% select(-Trait)
-
-# Standardize predictor variables
-recipe <- recipe(RPD ~ ., data=nitrogen_model_data) %>%
-    # convert string to factor
-    #step_string2factor(all_nominal()) %>%
-    # remove no variance predictors 
-    #recipes::step_nzv(all_nominal()) %>%
-    # factor to  dummy variables
-    #step_dummy(all_nominal(), one_hot=T) %>%
-    step_lencode_mixed(all_nominal_predictors() , outcome=vars(RPD)) %>%
-    # remove non-variance variables
-    step_nzv(where(is.numeric)) %>%
-    #step_dummy(all_nominal_predictors(), one_hot=F) %>%  # Convert categorical   variables to dummy variables
-    prep()
-
-# juice recipe
-nitrogen_model_data_final <- juice(recipe)
-
-# Fit the multinomial logistic regression model
-nitrogen_model <- lm(RPD ~. , data = nitrogen_model_data)
+nitrogen_data <- model_data %>% 
+  filter(Trait=="Nitrogen") %>% 
+  select(-Trait)
 ```
-
-## Report results
-### Biomass
-* Model
-```{r message=FALSE, warning=FALSE}
-report_model(biomass_model)
-```
-
-* Performance
-```{r message=FALSE, warning=FALSE}
-report_performance(biomass_model)
-```
-
-* Parameters
-```{r message=FALSE, warning=FALSE}
-report_parameters(biomass_model)
-```
- * Summary
+#### Definition of the intercept
+Let set the intercept to be Crop = cereal, UAV Type = AscTec Pelican, Sensor = Micasense RedEdge, Band = B_G_R_RE_NIR, Algorithm = MLR, and Altitude = 15:
 ```{r}
-library(flextable)
-library(officer)
-#stargazer(biomass_model, type = "text")
-#sjPlot::tab_model(biomass_model, show.p = T, show.ci = T)
-# Create a summary of the model
-biomass_model_summary <- summary(biomass_model)
+# Relevel categorical variables
+nitrogen_data$Crop <- relevel(nitrogen_data$Crop, ref = "cereal")
+nitrogen_data$Crop <- droplevels(nitrogen_data$Crop) # drop levels that doesn't exist
+nitrogen_data$UAV_Type <- relevel(nitrogen_data$UAV_Type, ref = "eBee wing-fixed")
+nitrogen_data$UAV_Type <- droplevels(nitrogen_data$UAV_Type)
+nitrogen_data$Sensor <- relevel(nitrogen_data$Sensor, ref = "Micasense RedEdge")
+nitrogen_data$Sensor <- droplevels(nitrogen_data$Sensor)
+nitrogen_data$Band <- relevel(nitrogen_data$Band, ref = "B_G_R_RE_NIR")
+nitrogen_data$Band <- droplevels(nitrogen_data$Band)
+nitrogen_data$Algorithm <- relevel(nitrogen_data$Algorithm, ref = "MLR")
+nitrogen_data$Algorithm <- droplevels(nitrogen_data$Algorithm)
 
-# Extract coefficients
-biomass_coefficients <- as.data.frame(biomass_model_summary$coefficients)
-
-# Create a beautiful table
-
-# Create a flextable object
-# ft <- flextable(biomass_coefficients)
-# 
-# # Customize the flextable
-# ft <- theme_vanilla(ft)
-# ft <- autofit(ft)
-# ft <- set_caption(ft, caption = "Customized Sample Table")
-# 
-# # Additional styling
-# ft <- bold(ft, part = "header")
-# ft <- bg(ft, part = "header", bg = "lightblue")
-# ft <- color(ft, part = "header", color = "white")
-# ft <- border_remove(ft)
-# ft <- border_outer(ft, border = fp_border(color = "black", width = 1))
-# ft <- border_inner_h(ft, border = fp_border(color = "gray", width = 0.5))
-# ft <- border_inner_v(ft, border = fp_border(color = "gray", width = 0.5))
-# 
-# # Display the flextable
-# ft
-# Create beautiful table
-kable(biomass_coefficients, format = "simple")  
-```
- 
-### Yield
-* Model
-```{r message=FALSE, warning=FALSE}
-report_model(yield_model)
+# Set altitude to 15 as a reference: subtract 15 from all the values in the Altitude column. This will make 15 the reference point (i.e., the value where Altitude = 0 in the model).
+#nitrogen_data$Altitude_m <- nitrogen_data$Altitude_m
 ```
 
-* Performance
-```{r message=FALSE, warning=FALSE}
-report_performance(yield_model)
+#### Preprocess the data
+```{r}
+nitrogen_data_final <- check_corr(nitrogen_data)
 ```
 
-* Parameters
-```{r message=FALSE, warning=FALSE}
-report_parameters(yield_model)
-```
- * Summary
-```{r message=FALSE, warning=FALSE}
-#stargazer(yield_model, type = "text")
-#sjPlot::tab_model(yield_model, show.p = T, show.ci = T)
-# Create a summary of the model
-yield_model_summary <- summary(yield_model)
+#### Model Building
 
-# Extract coefficients
-yield_coefficients <- as.data.frame(yield_model_summary$coefficients)
 
-# Create a beautiful table
-kable(yield_coefficients, format = "simple")  
-```
+```{r}
+library(glmnet)
 
-### Nitrogen
-* Model
-```{r message=FALSE, warning=FALSE}
-report_model(nitrogen_model)
-```
+# Prepare the data
+y <- nitrogen_data_final$RPD
+X <- select(nitrogen_data_final, -c(RPD))  #-c(RPD, Altitude_m)
+X <- as.matrix(X)
+X_interactions <- model.matrix(~ (.)^2, data = as.data.frame(X))
+X_interactions <- X_interactions[,-1] # remove intercept
 
-* Performance
-```{r message=FALSE, warning=FALSE}
-report_performance(nitrogen_model)
-```
 
-* Parameters
-```{r message=FALSE, warning=FALSE}
-report_parameters(nitrogen_model)
-```
- * Summary
-```{r message=FALSE, warning=FALSE}
-#stargazer(nitrogen_model, type = "text")
-#sjPlot::tab_model(nitrogen_model, show.p = T, show.ci = T)
-# Create a summary of the model
-nitrogen_model_summary <- summary(nitrogen_model)
+# Perform cross-validation to find the best alpha and lambda
+set.seed(123)  # For reproducibility
+cv_elastic_net <- cv.glmnet(X_interactions, y, alpha = 0.5)  # alpha = 0.5 for Elastic Net
 
-# Extract coefficients
-nitrogen_coefficients <- as.data.frame(nitrogen_model_summary$coefficients)
+# Extract the best lambda value
+best_lambda <- cv_elastic_net$lambda.min
 
-# Create a beautiful table
-kable(nitrogen_coefficients, format = "simple") 
+# Fit the final Elastic Net model
+final_model <- glmnet(X_interactions, y, alpha = 0.5, lambda = best_lambda)
+
+# View the coefficients
+#print(coef(final_model))
 ```
 
-## Plot the residuals
-### Biomass
-```{r message=FALSE, warning=FALSE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE, dpi=300}
-biomass_simulationOutput <- simulateResiduals(fittedModel = biomass_model)
-plot(biomass_simulationOutput)
+#### Plot interactions
+```{r fig.height=8, fig.width=18, warning=FALSE, fig.dpi=300}
+library(networkD3)
+library(ggraph)
+library(tidygraph)
+library(tidyr)
+library(dplyr)
+set_graph_style(plot_margin = margin(1,1,1,1))
+
+# Get the coefficients of the variables
+coefficients <- coef(final_model)
+df_coefs <- data.frame(
+     variables = names(coefficients[,1]),
+     coef_estimates = as.numeric(coefficients[,1])
+ )
+
+# Remove zero coefficients
+df_coefs <- df_coefs %>% filter(coef_estimates !=0)
+
+
+# Split variables string in 2 columns using the ':' as the separator
+df_coefs2 <- df_coefs %>%
+  separate(variables, into = c("Var1", "Var2"), sep = ":")  # Separate the interaction terms
+
+write.csv(df_coefs2, file="output/nitrogen_elasticnet_results.csv", row.names = F)
+
+interaction_df <-df_coefs2 %>% filter(!is.na(Var2))
+
+nodes <- unique(c(interaction_df$Var1, interaction_df$Var2))
+edges <- data.frame(
+  from = match(interaction_df$Var1, nodes),
+  to = match(interaction_df$Var2, nodes) ,
+  value = abs(interaction_df$coef_estimates)*5
+) %>% 
+  mutate(contribution = ifelse(interaction_df$coef_estimates>0, "positive", "negative"))
+nods <- data.frame(name=nodes)
+graph <- tbl_graph(nodes=nods, edges=edges, directed = F)
+
+
+# Not specifying the layout - defaults to "auto"
+
+p<-ggraph(graph, layout = 'stress') + 
+  geom_edge_link(aes(colour=contribution)) +
+  geom_node_point(size=7, color="blue", alpha=0.6)+
+  geom_node_text(aes(label = name), vjust = 1.5, size=5.5)+
+  theme_graph(base_size = 18)+
+  theme(legend.position = "top")
+p
+
+# Save the graph 
+ggsave("output/interaction_network_nitrogen.png", p, units = "in",
+       width = 15, height = 8, dpi = 300)
+
+
 ```
 
-### Yield
-```{r message=FALSE, warning=FALSE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE, dpi=300}
-yield_simulationOutput <- simulateResiduals(fittedModel = yield_model)
-plot(yield_simulationOutput)
-```
 
 
-### Nitrogen
-```{r message=FALSE, warning=FALSE, fig.height=5, fig.width=7, message=FALSE, warning=FALSE, dpi=300}
-nitrogen_simulationOutput <- simulateResiduals(fittedModel = nitrogen_model)
-plot(nitrogen_simulationOutput)
-```
+
+
+
+
+
 
 
